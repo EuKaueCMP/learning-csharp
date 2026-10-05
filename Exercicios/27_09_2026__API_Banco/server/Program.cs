@@ -6,6 +6,7 @@ using System.Text;
 using Microsoft.IdentityModel.Tokens;
 using System.Reflection.Metadata;
 using DotNetEnv;
+using BancoAPI.Domains;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -17,7 +18,42 @@ Env.Load();
 var connectionString = Environment.GetEnvironmentVariable("DefaultConnection");
 
 // Conectando com o banco
-builder.Services.AddDbContext<AppDbContext>(options => options.UseNpgsql(connectionString));
+builder.Services.AddDbContext<AppDbContext>(options => options.UseNpgsql(
+                                                            connectionString,
+                                                            npgsqloptions => {
+                                                                npgsqloptions.MapEnum<tipo_usuario_enum>(
+                                                                    "tipo_usuario_enum",
+                                                                    "banco");
+
+                                                                npgsqloptions.MapEnum<tipo_transferencia_enum>(
+                                                                    "tipo_transferencia_enum",
+                                                                    "banco");
+
+                                                                npgsqloptions.MapEnum<status_movimentacao_enum>(
+                                                                    "status_movimentacao_enum",
+                                                                    "banco");
+
+                                                                npgsqloptions.MapEnum<tipo_alteracao_enum>(
+                                                                    "tipo_alteracao_enum",
+                                                                    "banco");
+
+                                                                npgsqloptions.MapEnum<tipo_deposito_enum>(
+                                                                    "tipo_deposito_enum",
+                                                                    "banco");
+
+                                                                npgsqloptions.MapEnum<tipo_movimentacao_enum>(
+                                                                    "tipo_movimentacao_enum",
+                                                                    "banco");
+
+                                                                npgsqloptions.MapEnum<tipo_pagamento_enum>(
+                                                                    "tipo_pagamento_enum",
+                                                                    "banco");
+
+                                                                npgsqloptions.MapEnum<tipo_saque_enum>(
+                                                                    "tipo_saque_enum",
+                                                                    "banco");
+
+                                                            }));
 
 builder.Services.AddControllers();
 

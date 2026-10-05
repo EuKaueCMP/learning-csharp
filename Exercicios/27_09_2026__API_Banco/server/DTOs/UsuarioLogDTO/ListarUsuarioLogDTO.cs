@@ -6,12 +6,12 @@ namespace BancoAPI.DTOs
 
         public int usuario_id { get; set; }
 
-        public string nome_alteracao { get; set; }
-        public int tipo_alteracao_id { get; set; }
+        public string nome_alteracao { get; set; } = null!;
+        public string tipo_alteracao { get; set; } = null!;
 
-        public string nome { get; set; } = null!;
+        public string nome_anterior { get; set; } = null!;
 
-        public string email { get; set; } = null!;
+        public string email_anterior { get; set; } = null!;
 
         public decimal saldo { get; set; }
 

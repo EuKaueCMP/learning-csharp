@@ -9,17 +9,15 @@ public partial class usuario_log
 
     public int usuario_id { get; set; }
 
-    public int tipo_alteracao_id { get; set; }
+    public tipo_alteracao_enum tipo_alteracao { get; set; }
 
-    public string nome { get; set; } = null!;
+    public string senha_anterior { get; set; } = null!;
 
-    public string email { get; set; } = null!;
+    public string nome_anterior { get; set; } = null!;
 
-    public decimal saldo { get; set; }
+    public string email_anterior { get; set; } = null!;
 
-    public DateTime? data_alteracao { get; set; }
-
-    public virtual tipo_alteracao tipo_alteracao { get; set; } = null!;
+    public DateTime data_alteracao { get; set; }
 
     public virtual usuario usuario { get; set; } = null!;
 }

@@ -28,15 +28,15 @@ namespace BancoAPI.Services
             return logs.Select(lw => ConvertToDto.LogTransferenciaToDto(lw)).ToList();
         }
 
-        public async Task<List<ListarLogTransferenciaDTO>> ObterPorStatusId(int statusId)
+        public async Task<List<ListarLogTransferenciaDTO>> ObterPorStatusId(string status)
         {
-            List<log_transferencia> logs = await _repository.ObterPorStatusId(statusId) ?? throw new DomainException("Log de transferencia nao localizado!");
+            List<log_transferencia> logs = await _repository.ObterPorStatusId(status) ?? throw new DomainException("Log de transferencia nao localizado!");
             return logs.Select(lw => ConvertToDto.LogTransferenciaToDto(lw)).ToList();
         }
 
-        public async Task<List<ListarLogTransferenciaDTO>> ObterPorUsuarioIdStatusId(int usuarioId, int statusId)
+        public async Task<List<ListarLogTransferenciaDTO>> ObterPorUsuarioIdStatusId(int usuarioId, string status)
         {
-            List<log_transferencia> logs = (await _repository.ObterPorUsuarioIdStatusId(usuarioId, statusId)
+            List<log_transferencia> logs = (await _repository.ObterPorUsuarioIdStatusId(usuarioId, status)
                             ?? throw new DomainException("Log de transferencia nao localizado!"));
 
             return logs.Select(lw => ConvertToDto.LogTransferenciaToDto(lw)).ToList();

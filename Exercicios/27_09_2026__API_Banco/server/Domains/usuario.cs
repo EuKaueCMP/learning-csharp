@@ -13,13 +13,19 @@ public partial class usuario
 
     public string senha { get; set; } = null!;
 
-    public decimal? saldo { get; set; }
+    public bool status { get; set; }
 
-    public int? tipo_usuario_id { get; set; }
+    public tipo_usuario_enum tipo_usuario { get; set; }
+
+    public virtual conta_usuario? conta_usuario { get; set; }
+
+    public virtual ICollection<deposito> deposito { get; set; } = new List<deposito>();
 
     public virtual ICollection<movimentacao> movimentacao { get; set; } = new List<movimentacao>();
 
-    public virtual tipo_usuario? tipo_usuario { get; set; }
+    public virtual ICollection<pagamento> pagamento { get; set; } = new List<pagamento>();
+
+    public virtual ICollection<saque> saque { get; set; } = new List<saque>();
 
     public virtual ICollection<transferencia> transferenciausuario_destinatario { get; set; } = new List<transferencia>();
 

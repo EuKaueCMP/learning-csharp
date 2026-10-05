@@ -20,24 +20,24 @@ namespace BancoAPI.Repositories
                             => await _ctx.log_transferencia
                                 .OrderByDescending(l => l.data_alteracao)
                                 .Include(u => u.transferencia)
-                                .Include(u => u.status)
-                                .Where(l => l.transferencia.transferencia_id == usuarioId)
+                                .Include(u => u.status_movimentacao_anterior)
+                                .Where(l => l.transferencia.usuario_remetente_id == usuarioId || l.transferencia.usuario_destinatario_id == usuarioId)
                                 .ToListAsync();
 
-        public async Task<List<log_transferencia>> ObterPorStatusId(int statusId)
+        public async Task<List<log_transferencia>> ObterPorStatusId(string nomeStatus)
                             => await _ctx.log_transferencia
                                 .OrderByDescending(l => l.data_alteracao)
                                 .Include(u => u.transferencia)
-                                .Include(u => u.status)
-                                .Where(l => l.status_id == statusId)
+                                .Include(u => u.status_movimentacao_anterior)
+                                .Where(l => l.status_movimentacao_anterior.ToString() == nomeStatus.ToUpper())
                                 .ToListAsync();
 
-        public async Task<List<log_transferencia>> ObterPorUsuarioIdStatusId(int usuarioId, int statusId)
+        public async Task<List<log_transferencia>> ObterPorUsuarioIdStatusId(int usuarioId, string status)
                              => await _ctx.log_transferencia
                                 .OrderByDescending(l => l.data_alteracao)
                                 .Include(u => u.transferencia)
-                                .Include(u => u.status)
-                                .Where(l => l.transferencia.usuario_remetente_id == usuarioId && l.status_id == statusId)
+                                .Include(u => u.status_movimentacao_anterior)
+                                .Where(l => l.transferencia.usuario_remetente_id == usuarioId && l.status_movimentacao_anterior.ToString() == status.ToUpper())
                                 .ToListAsync();
 
         public async Task<log_transferencia> ObterPorId(int logId)

@@ -6,7 +6,7 @@ namespace BancoAPI.DTO
 
         public int? usuario_id { get; set; }
 
-        public int? tipo_movimentacao_id { get; set; }
+        public string tipo_movimentacao { get; set; }
 
         public decimal saldo_anterior { get; set; }
 

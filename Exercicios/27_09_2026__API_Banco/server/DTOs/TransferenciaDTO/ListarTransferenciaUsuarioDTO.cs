@@ -12,8 +12,8 @@ namespace BancoAPI
 
         public DateTime? data_transferencia { get; set; }
 
-        public int? tipo_id { get; set; }
+        public string tipo_transferencia { get; set; }
 
-        public int? status_id { get; set; }
+        public string status_transferencia { get; set; }
     }
 }

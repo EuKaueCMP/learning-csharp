@@ -34,7 +34,7 @@ namespace BancoAPI
                 new Claim(ClaimTypes.NameIdentifier, usuario.usuario_id.ToString()),
                 new Claim(ClaimTypes.Name, usuario.nome),
                 new Claim(ClaimTypes.Email, usuario.email),
-                new Claim(ClaimTypes.Role, usuario.tipo_usuario.tipo)
+                new Claim(ClaimTypes.Role, usuario.tipo_usuario.ToString())
             };
 
             var token = new JwtSecurityToken(

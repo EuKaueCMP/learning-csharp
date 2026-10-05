@@ -6,7 +6,7 @@ namespace BancoAPI.DTOs
 
         public string descricao_log { get; set; } = null!;
 
-        public int status_id { get; set; }
+        public string status_transferencia { get; set; }
 
         public DateTime? data_alteracao { get; set; }
 

@@ -14,7 +14,7 @@ namespace BancoAPI.Applications.Conversions
                 transferencia_id = logTransf.transferencia_id,
                 data_alteracao = logTransf.data_alteracao,
                 descricao_log = logTransf.descricao_log,
-                status_id = logTransf.status_id
+                status_transferencia = logTransf.status_movimentacao_anterior.ToString()
             };
         }
 
@@ -24,65 +24,19 @@ namespace BancoAPI.Applications.Conversions
             {
                 movimentacao_id = movimentacao.movimentacao_id,
                 usuario_id = movimentacao.usuario_id,
-                tipo_movimentacao_id = movimentacao.tipo_movimentacao_id,
+                tipo_movimentacao = movimentacao.tipo_movimentacao.ToString(),
                 saldo_anterior = movimentacao.saldo_anterior,
                 saldo_atual = movimentacao.saldo_atual,
                 data_movimentacao = movimentacao.data_movimentacao
             };
         }
-
-        public static ListarStatusTransferenciaDTO StatusTransferenciaToDto(status_transferencia statusTransferencia)
-        {
-            return new ListarStatusTransferenciaDTO
-            {
-                status_transferencia_id = statusTransferencia.status_transferencia_id,
-                nome_status = statusTransferencia.nome_status
-            };
-        }
-
-        public static ListarTipoAlteracaoDTO TipoAltacaoToDto(tipo_alteracao tipoAlteracao)
-        {
-            return new ListarTipoAlteracaoDTO
-            {
-                tipo_alteracao_id = tipoAlteracao.tipo_alteracao_id,
-                nome_alteracao = tipoAlteracao.nome_alteracao
-            };
-        }
-
-        public static ListarTipoMovimentacaoDTO TipoMovimentacaoToDto(tipo_movimentacao tipoMovimentacao)
-        {
-            return new ListarTipoMovimentacaoDTO
-            {
-                tipo_movimentacao_id = tipoMovimentacao.tipo_movimentacao_id,
-                tipo = tipoMovimentacao.tipo
-            };
-        }
-
-        public static ListarTipoTransferenciaDTO TipoTransferenciaToDto(tipo_transferencia tipoTransferencia)
-        {
-            return new ListarTipoTransferenciaDTO
-            {
-                tipo_transferencia_id = tipoTransferencia.tipo_transferencia_id,
-                nome_tipo = tipoTransferencia.nome_tipo
-            };
-        }
-
-        public static ListarTipoUsuarioDTO TipoUsuarioToDto(tipo_usuario tipoUsuario)
-        {
-            return new ListarTipoUsuarioDTO
-            {
-                tipo_usuario_id = tipoUsuario.tipo_usuario_id,
-                nome_tipo = tipoUsuario.tipo
-            };
-        }
-
         public static ListarTransferenciaDTO TransferenciaToDto(transferencia transferencia)
         {
             return new ListarTransferenciaDTO
             {
                 transferencia_id = transferencia.transferencia_id,
-                status_id = transferencia.status_id,
-                tipo_id = transferencia.tipo_id,
+                status_transferencia = transferencia.status_movimentacao.ToString(),
+                tipo_transferencia = transferencia.tipo_transferencia.ToString(),
                 usuario_remetente_id = transferencia.usuario_remetente_id,
                 nome_remetente = transferencia.usuario_remetente.nome,
                 usuario_destinatario_id = transferencia.usuario_destinatario_id,
@@ -97,11 +51,10 @@ namespace BancoAPI.Applications.Conversions
             {
                 log_id = logUsu.log_id,
                 usuario_id = logUsu.usuario_id,
-                nome = logUsu.nome,
-                email = logUsu.email,
-                saldo = logUsu.saldo,
-                nome_alteracao = logUsu.tipo_alteracao.nome_alteracao,
-                tipo_alteracao_id = logUsu.tipo_alteracao_id,
+                nome_anterior = logUsu.nome_anterior,
+                email_anterior = logUsu.email_anterior,
+                nome_alteracao = logUsu.tipo_alteracao.ToString(),
+                tipo_alteracao = logUsu.tipo_alteracao.ToString(),
                 data_alteracao = logUsu.data_alteracao
             };
         }

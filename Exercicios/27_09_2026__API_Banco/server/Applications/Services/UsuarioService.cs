@@ -48,7 +48,7 @@ namespace BancoAPI.Services
             return ConvertToDto.UsuarioToDto(usuario);
         }
 
-        public async void AtualizarSenha(int usuarioId, string senha)
+        public async Task AtualizarSenha(int usuarioId, string senha)
         {
             usuario usuario = await _repository.ObterUsuarioPorId(usuarioId);
             if (usuario == null)
@@ -66,7 +66,7 @@ namespace BancoAPI.Services
             _repository.AtualizarSenha(usuarioId, novaSenha);
         }
 
-        public async void Remover(int usuarioId)
+        public async Task Remover(int usuarioId)
         {
             usuario usuario = await _repository.ObterUsuarioPorId(usuarioId)
                     ?? throw new DomainException("Erro, nenhum usuario encontrado!");

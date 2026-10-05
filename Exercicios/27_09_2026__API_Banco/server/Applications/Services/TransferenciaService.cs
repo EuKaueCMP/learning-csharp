@@ -9,11 +9,9 @@ namespace BancoAPi
     public class TransferenciaService
     {
         private readonly ITransferenciaRepository _repository;
-        private readonly IStatusTransferenciaRepository _statusRepository;
-        public TransferenciaService(ITransferenciaRepository repository, IStatusTransferenciaRepository statusRepository)
+        public TransferenciaService(ITransferenciaRepository repository)
         {
             _repository = repository;
-            _statusRepository = statusRepository;
         }
 
         public async Task<List<ListarTransferenciaDTO>> ObterPorUsuarioRemetenteId(int usuarioId)
@@ -38,27 +36,27 @@ namespace BancoAPi
         public async Task<List<ListarTransferenciaDTO>> ObterTransfrerenciaPorUsurioIdData(int usuarioId, DateOnly dataTransferencia)
         {
             if (usuarioId <= 0)
-            throw new DomainException("Nenhuma transferencia encontrada!");
+                throw new DomainException("Nenhuma transferencia encontrada!");
 
             List<transferencia> transferencias = await _repository.ObterTransferenciaPorUsurioIdData(usuarioId, dataTransferencia);
             return transferencias.Select(tr => ConvertToDto.TransferenciaToDto(tr)).ToList();
         }
 
-        public async Task<List<ListarTransferenciaDTO>> ObterTransferenciaPorUsuarioIdTipoId(int usuarioId, int tipoId)
+        public async Task<List<ListarTransferenciaDTO>> ObterTransferenciaPorUsuarioIdTipo(int usuarioId, string tipo)
         {
-            if (usuarioId <= 0 || tipoId <= 0)
+            if (usuarioId <= 0 || tipo == null)
                 throw new DomainException("Nenhuma transferencia encontrada!");
 
-            List<transferencia> transferencias = await _repository.ObterTransferenciaPorUsuarioIdTipoId(usuarioId, tipoId);
+            List<transferencia> transferencias = await _repository.ObterTransferenciaPorUsuarioIdTipoId(usuarioId, tipo);
             return transferencias.Select(tr => ConvertToDto.TransferenciaToDto(tr)).ToList();
         }
 
-        public async Task<List<ListarTransferenciaDTO>> ObteTransferenciaPorUsuarioId(int usuarioId, int statusId)
+        public async Task<List<ListarTransferenciaDTO>> ObteTransferenciaPorUsuarioId(int usuarioId, string status)
         {
-            if (usuarioId <= 0 || statusId <= 0)
+            if (usuarioId <= 0 || status == null)
                 throw new DomainException("Nenhuma transferencia encontrada!");
 
-            List<transferencia> transferencias = await _repository.ObterTransferenciaPorUsuarioIdTipoId(usuarioId, statusId);
+            List<transferencia> transferencias = await _repository.ObterTransferenciaPorUsuarioIdTipoId(usuarioId, status);
             return transferencias.Select(tr => ConvertToDto.TransferenciaToDto(tr)).ToList();
         }
 
@@ -68,18 +66,17 @@ namespace BancoAPi
                                  ?? throw new DomainException("Nenhuma transferencia encontrada!"));
         }
 
-        public async void Transferir(int tipoTransferenciaId, int usuarioRemetenteId, int usuarioDestinatarioId, double saldo)
+        public async Task Transferir(string tipoTransferencia, int usuarioRemetenteId, int usuarioDestinatarioId, double saldo)
         {
             if (usuarioRemetenteId <= 0)
                 throw new DomainException("Erro, usuario remetente nao localizado!");
 
             DateOnly dataTransferencia = DateOnly.FromDateTime(DateTime.Now);
-            string statusTranserencia = "EM ANDAMENTO";
-            if ( tipoTransferenciaId <= 0 || saldo <= 0)
+            string statusTranserencia = "EM_ANDAMENTO";
+            if (tipoTransferencia == null || saldo <= 0)
                 throw new DomainException("Preencha todos os valores para seguir com a transferencia!");
 
-            var status = await _statusRepository.ObterPorNome(statusTranserencia);
-            _repository.Transferir(tipoTransferenciaId, usuarioRemetenteId, usuarioDestinatarioId, saldo, dataTransferencia, status.status_transferencia_id);
+            _repository.Transferir(tipoTransferencia, usuarioRemetenteId, usuarioDestinatarioId, saldo, dataTransferencia, statusTranserencia);
         }
     }
 }
