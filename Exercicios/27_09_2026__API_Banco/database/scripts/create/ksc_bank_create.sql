@@ -34,7 +34,8 @@ CREATE TABLE banco.usuario_log
 	tipo_alteracao banco.tipo_alteracao_enum NOT NULL,
 	senha_anterior VARCHAR(100) NOT NULL,
 	nome_anterior VARCHAR(100) NOT NULL,
-	email_anterior VARCHAR(100) NOT NULL
+	email_anterior VARCHAR(100) NOT null,
+	data_alteracao TIMESTAMP not null default CLOCK_TIMESTAMP()
 );
 
 
@@ -108,7 +109,6 @@ CREATE TABLE banco.movimentacao
 	movimentacao_id SERIAL PRIMARY KEY,
 	usuario_id INTEGER NOT NULL REFERENCES banco.usuario(usuario_id),
 	informacoes JSONB,
-	status_movimentacao banco.status_movimentacao_enum NOT NULL, 
 	tipo_movimentacao banco.tipo_movimentacao_enum NOT NULL,
 	saldo_movimentado NUMERIC(10, 2) NOT NULL,
 	saldo_anterior NUMERIC(10, 2) NOT NULL,
