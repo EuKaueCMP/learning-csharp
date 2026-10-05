@@ -28,9 +28,9 @@ namespace BancoAPI.Services
             return movimentacoes.Select(mv => ConvertToDto.MovimentacaoToDto(mv)).ToList();
         }
 
-        public async Task<List<ListarMovimentacaoDTO>> ObterPorUsuarioIdData(int usuarioid, DateOnly data)
+        public async Task<List<ListarMovimentacaoDTO>> ObterTransfrerenciaPorUsurioIdData(int usuarioid, DateOnly data)
         {
-            List<movimentacao> movimentacoes = await _repository.ObterPorUsuarioIdData(usuarioid, data) ?? throw new DomainException("Nenhuma movimentação encontrada!");
+            List<movimentacao> movimentacoes = await _repository.ObterTransfrerenciaPorUsurioIdData(usuarioid, data) ?? throw new DomainException("Nenhuma movimentação encontrada!");
             return movimentacoes.Select(mv => ConvertToDto.MovimentacaoToDto(mv)).ToList();
         }
 

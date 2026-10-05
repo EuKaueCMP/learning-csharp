@@ -6,6 +6,7 @@ namespace BancoAPI.DTOs
 
         public int usuario_id { get; set; }
 
+        public string nome_alteracao { get; set; }
         public int tipo_alteracao_id { get; set; }
 
         public string nome { get; set; } = null!;

@@ -3,6 +3,7 @@ using BancoAPI.Contexts;
 using BancoAPI.Domains;
 using BancoAPI.Interfaces;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Storage.ValueConversion.Internal;
 
 namespace BancoAPI.Repositories
 {
@@ -11,20 +12,28 @@ namespace BancoAPI.Repositories
         private readonly AppDbContext _ctx;
         public StatusTransferenciaRepository(AppDbContext ctx) => _ctx = ctx;
 
-        public Task<List<status_transferencia>> Listar() => _ctx.status_transferencia.ToListAsync();
+        public async Task<List<status_transferencia>> Listar()
+                             => await _ctx.status_transferencia
+                                .ToListAsync();
 
-        public Task<status_transferencia> ObterPorId(int id) => _ctx.status_transferencia.FindAsync(id).AsTask();
+        public async Task<status_transferencia> ObterPorId(int id)
+                             => await _ctx.status_transferencia
+                                .FindAsync(id);
 
-        public void Adicionar(status_transferencia statusTransf)
+        public async Task<status_transferencia> ObterPorNome(string nomeStatus)
+                             => await _ctx.status_transferencia
+                                .FirstOrDefaultAsync(st => st.nome_status == nomeStatus);
+
+        public async void Adicionar(status_transferencia statusTransf)
         {
-            _ctx.status_transferencia.AddAsync(statusTransf);
-            _ctx.SaveChangesAsync();
+            await _ctx.status_transferencia.AddAsync(statusTransf);
+            await _ctx.SaveChangesAsync();
         }
 
-        public void Atualizar(status_transferencia statusTransf)
+        public async void Atualizar(status_transferencia statusTransf)
         {
             _ctx.status_transferencia.Update(statusTransf);
-            _ctx.SaveChangesAsync();
+            await _ctx.SaveChangesAsync();
         }
     }
 }

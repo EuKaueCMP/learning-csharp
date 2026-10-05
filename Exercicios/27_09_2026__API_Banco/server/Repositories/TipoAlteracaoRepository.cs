@@ -11,21 +11,28 @@ namespace BancoAPI.Repositories
         private readonly AppDbContext _ctx;
         public TipoAlteracaoRepository(AppDbContext ctx) => _ctx = ctx;
 
-        public Task<List<tipo_alteracao>> Listar() => _ctx.tipo_alteracao.ToListAsync();
+        public async Task<List<tipo_alteracao>> Listar()
+                            => await _ctx.tipo_alteracao
+                                .ToListAsync();
 
-        public async Task<tipo_alteracao> ObterPorId(int id) => await _ctx.tipo_alteracao.FindAsync(id);
-        public async Task<bool> ObterPorNome(string nome) =>  await _ctx.tipo_alteracao.AnyAsync(ta => ta.nome_alteracao == nome);
+        public async Task<tipo_alteracao> ObterPorId(int id)
+                            => await _ctx.tipo_alteracao
+                                .FindAsync(id);
 
-        public void Adicionar(tipo_alteracao tipoAlteracao)
+        public async Task<bool> ObterPorNome(string nome)
+                             => await _ctx.tipo_alteracao
+                                .AnyAsync(ta => ta.nome_alteracao == nome);
+
+        public async void Adicionar(tipo_alteracao tipoAlteracao)
         {
-            _ctx.tipo_alteracao.AddAsync(tipoAlteracao);
-            _ctx.SaveChangesAsync();
+            await _ctx.tipo_alteracao.AddAsync(tipoAlteracao);
+            await _ctx.SaveChangesAsync();
         }
-        
-        public void Atualizar(tipo_alteracao tipoAlteracao)
-        {   
+
+        public async void Atualizar(tipo_alteracao tipoAlteracao)
+        {
             _ctx.tipo_alteracao.Update(tipoAlteracao);
-            _ctx.SaveChanges();
+            await _ctx.SaveChangesAsync();
         }
     }
 }

@@ -10,20 +10,28 @@ namespace BancoAPI.Repositories
         private readonly AppDbContext _ctx;
         public TipoMovimentacaoRepository(AppDbContext ctx) => _ctx = ctx;
 
-        public Task<List<tipo_movimentacao>> Listar() => _ctx.tipo_movimentacao.ToListAsync();
-        public async Task<tipo_movimentacao> ObterPorId(int tipoId) => await _ctx.tipo_movimentacao.FindAsync(tipoId);
-        public async Task<bool> ObterPorNome(string nome) =>  await _ctx.tipo_alteracao.AnyAsync(ta => ta.nome_alteracao == nome);
+        public Task<List<tipo_movimentacao>> Listar()
+                                 => _ctx.tipo_movimentacao
+                                    .ToListAsync();
 
-        public void Adicionar(tipo_movimentacao tipoMovimentacao)
+        public async Task<tipo_movimentacao> ObterPorId(int tipoId)
+                                 => await _ctx.tipo_movimentacao
+                                    .FindAsync(tipoId);
+                                    
+        public async Task<bool> ObterPorNome(string nome)
+                                 =>  await _ctx.tipo_alteracao
+                                    .AnyAsync(ta => ta.nome_alteracao == nome);
+
+        public async void Adicionar(tipo_movimentacao tipoMovimentacao)
         {
-            _ctx.tipo_movimentacao.AddAsync(tipoMovimentacao);
-            _ctx.SaveChangesAsync();
+            await _ctx.tipo_movimentacao.AddAsync(tipoMovimentacao);
+            await _ctx.SaveChangesAsync();
         }
 
-        public void Atualizar(tipo_movimentacao tipoMovimentacao)
+        public async void Atualizar(tipo_movimentacao tipoMovimentacao)
         {
             _ctx.tipo_movimentacao.Update(tipoMovimentacao);
-            _ctx.SaveChangesAsync();
+            await _ctx.SaveChangesAsync();
         }
     }
 }

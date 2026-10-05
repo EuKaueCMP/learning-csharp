@@ -31,6 +31,15 @@ namespace BancoAPI.Applications.Conversions
             };
         }
 
+        public static ListarStatusTransferenciaDTO StatusTransferenciaToDto(status_transferencia statusTransferencia)
+        {
+            return new ListarStatusTransferenciaDTO
+            {
+                status_transferencia_id = statusTransferencia.status_transferencia_id,
+                nome_status = statusTransferencia.nome_status
+            };
+        }
+
         public static ListarTipoAlteracaoDTO TipoAltacaoToDto(tipo_alteracao tipoAlteracao)
         {
             return new ListarTipoAlteracaoDTO
@@ -67,33 +76,43 @@ namespace BancoAPI.Applications.Conversions
             };
         }
 
-        public static ListarTransferenciaUsuarioDestinatarioDTO TransferenciaDestinatarioToDto(transferencia transferenciaDestinatario)
+        public static ListarTransferenciaDTO TransferenciaToDto(transferencia transferencia)
         {
-            return new ListarTransferenciaUsuarioDestinatarioDTO
+            return new ListarTransferenciaDTO
             {
-                transferencia_id = transferenciaDestinatario.transferencia_id,
-                status_id = transferenciaDestinatario.status_id,
-                tipo_id = transferenciaDestinatario.tipo_id,
-                usuario_destinatario_id = transferenciaDestinatario.usuario_destinatario_id,
-                nome_destinatario = transferenciaDestinatario.usuario_destinatario.nome,
-                usuario_remetente_id = transferenciaDestinatario.usuario_remetente_id,
-                nome_remetente = transferenciaDestinatario.usuario_remetente.nome,
-                data_transferencia = transferenciaDestinatario.data_transferencia
+                transferencia_id = transferencia.transferencia_id,
+                status_id = transferencia.status_id,
+                tipo_id = transferencia.tipo_id,
+                usuario_remetente_id = transferencia.usuario_remetente_id,
+                nome_remetente = transferencia.usuario_remetente.nome,
+                usuario_destinatario_id = transferencia.usuario_destinatario_id,
+                nome_destinatario = transferencia.usuario_destinatario.nome,
+                data_transferencia = transferencia.data_transferencia
             };
         }
 
-        public static ListarTransferenciaUsuarioRemetenteDTO TransferenciaUsuRemetenteToDto(transferencia transferenciaDestinatario)
+        public static ListarUsuarioLogDTO UsuarioLogToDto(usuario_log logUsu)
         {
-            return new ListarTransferenciaUsuarioRemetenteDTO
+            return new ListarUsuarioLogDTO
             {
-                transferencia_id = transferenciaDestinatario.transferencia_id,
-                status_id = transferenciaDestinatario.status_id,
-                tipo_id = transferenciaDestinatario.tipo_id,
-                usuario_remetente_id = transferenciaDestinatario.usuario_remetente_id,
-                nome_remetente = transferenciaDestinatario.usuario_remetente.nome,
-                usuario_destinatario_id = transferenciaDestinatario.usuario_destinatario_id,
-                nome_destinatario = transferenciaDestinatario.usuario_destinatario.nome,
-                data_transferencia = transferenciaDestinatario.data_transferencia
+                log_id = logUsu.log_id,
+                usuario_id = logUsu.usuario_id,
+                nome = logUsu.nome,
+                email = logUsu.email,
+                saldo = logUsu.saldo,
+                nome_alteracao = logUsu.tipo_alteracao.nome_alteracao,
+                tipo_alteracao_id = logUsu.tipo_alteracao_id,
+                data_alteracao = logUsu.data_alteracao
+            };
+        }
+
+        public static ListarUsuarioDTO UsuarioToDto(usuario usuario)
+        {
+            return new ListarUsuarioDTO
+            {
+                usuario_id = usuario.usuario_id,
+                nome = usuario.nome,
+                email = usuario.email,
             };
         }
     }
