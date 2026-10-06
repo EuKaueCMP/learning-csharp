@@ -47,6 +47,6 @@ namespace BancoAPI.Repositories
                              => await _ctx.movimentacao
                                 .Include(m => m.usuario)
                                 .Include(m => m.tipo_movimentacao)
-                                .FirstOrDefaultAsync(m => m.movimentacao_id == id);
+                                .FirstAsync(m => m.movimentacao_id == id);
     }
 }

@@ -24,7 +24,7 @@ namespace BancoAPI.Repositories
                                 .Where(l => l.transferencia.usuario_remetente_id == usuarioId || l.transferencia.usuario_destinatario_id == usuarioId)
                                 .ToListAsync();
 
-        public async Task<List<log_transferencia>> ObterPorStatusId(string nomeStatus)
+        public async Task<List<log_transferencia>> ObterPorStatus(string nomeStatus)
                             => await _ctx.log_transferencia
                                 .OrderByDescending(l => l.data_alteracao)
                                 .Include(u => u.transferencia)
@@ -32,7 +32,7 @@ namespace BancoAPI.Repositories
                                 .Where(l => l.status_movimentacao_anterior.ToString() == nomeStatus.ToUpper())
                                 .ToListAsync();
 
-        public async Task<List<log_transferencia>> ObterPorUsuarioIdStatusId(int usuarioId, string status)
+        public async Task<List<log_transferencia>> ObterPorUsuarioIdStatus(int usuarioId, string status)
                              => await _ctx.log_transferencia
                                 .OrderByDescending(l => l.data_alteracao)
                                 .Include(u => u.transferencia)
@@ -42,6 +42,6 @@ namespace BancoAPI.Repositories
 
         public async Task<log_transferencia> ObterPorId(int logId)
                              => await _ctx.log_transferencia
-                                .FindAsync(logId);
+                                .FirstAsync(l => l.log_id == logId);
     }
 }

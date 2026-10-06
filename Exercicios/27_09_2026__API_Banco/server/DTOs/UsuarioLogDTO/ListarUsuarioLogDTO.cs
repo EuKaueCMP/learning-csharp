@@ -12,8 +12,9 @@ namespace BancoAPI.DTOs
         public string nome_anterior { get; set; } = null!;
 
         public string email_anterior { get; set; } = null!;
+        public string email_alteracao { get; set; } = null!;
 
-        public decimal saldo { get; set; }
+        public decimal valor { get; set; }
 
         public DateTime? data_alteracao { get; set; }
     }

@@ -9,7 +9,7 @@ namespace BancoAPI
 
         public string nome_destinatario { get; set; }
         public int? usuario_destinatario_id { get; set; }
-
+        public DateTime? data_criacao { get; set; }
         public DateTime? data_transferencia { get; set; }
 
         public string tipo_transferencia { get; set; }

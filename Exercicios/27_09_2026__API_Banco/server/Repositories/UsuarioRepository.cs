@@ -23,7 +23,11 @@ namespace BancoAPI.Repositories
         public async Task<usuario> ObterUsuarioPorId(int usuarioId)
                          => await _ctx.usuario
                             .Include(u => u.tipo_usuario)
-                            .FirstOrDefaultAsync(u => u.usuario_id == usuarioId);
+                            .FirstAsync(u => u.usuario_id == usuarioId);
+
+        public async Task<bool> ObterUsuarioPorEmail(string email)
+                        => await _ctx.usuario
+                            .AnyAsync(u => u.email == email);
 
         public async Task Adicionar(usuario usuario)
         {
@@ -39,7 +43,7 @@ namespace BancoAPI.Repositories
 
         public async Task AtualizarSenha(int usuarioId, string senha)
         {
-            usuario usuario = await _ctx.usuario.FindAsync(usuarioId);
+            usuario usuario = await _ctx.usuario.FirstAsync(u => u.usuario_id == usuarioId);
             usuario.senha = senha;
 
             _ctx.Update(usuario);
