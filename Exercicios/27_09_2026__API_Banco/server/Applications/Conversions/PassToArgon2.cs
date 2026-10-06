@@ -2,7 +2,7 @@ using Konscious.Security.Cryptography;
 using System.Security.Cryptography;
 using System.Text;
 
-namespace BancoAPI.Services.Conversions
+namespace BancoAPI.Applications.Conversions
 {
     /// <summary>
     /// Utilitário estático para hash e verificação de senhas com Argon2id.

@@ -1,4 +1,4 @@
-namespace BancoAPI
+namespace BancoAPI.Exceptions
 {
     public class DomainException : Exception
     {

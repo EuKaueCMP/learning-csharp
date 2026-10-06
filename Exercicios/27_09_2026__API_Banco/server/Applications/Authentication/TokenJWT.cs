@@ -3,8 +3,9 @@ using System.Security.Claims;
 using System.Text;
 using BancoAPI.Domains;
 using Microsoft.IdentityModel.Tokens;
+using BancoAPI.Exceptions;
 
-namespace BancoAPI
+namespace BancoAPI.Applications.Authentication
 {
     public class TokenJWT
     {

@@ -1,4 +1,4 @@
-namespace BancoAPI
+namespace BancoAPI.DTOs.TransferenciaDTO
 {
     public partial class CriarTransferenciaUsuarioDTO
     {

@@ -1,4 +1,4 @@
-namespace BancoAPI.DTOs
+namespace BancoAPI.DTOs.LogTransferenciaDTO
 {
     public partial class ListarLogTransferenciaDTO
     {

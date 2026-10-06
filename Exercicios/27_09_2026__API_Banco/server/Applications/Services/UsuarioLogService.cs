@@ -1,10 +1,11 @@
 using BancoAPI;
 using BancoAPI.Applications.Conversions;
 using BancoAPI.Domains;
-using BancoAPI.DTOs;
+using BancoAPI.DTOs.UsuarioLogDTO;
 using BancoAPI.Interfaces;
+using BancoAPI.Exceptions;
 
-namespace BancoApi.Services
+namespace BancoAPI.Applications.Services
 {
     public class UsuarioLogService
     {

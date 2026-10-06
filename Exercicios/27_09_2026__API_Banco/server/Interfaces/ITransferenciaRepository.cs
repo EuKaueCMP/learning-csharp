@@ -14,6 +14,6 @@ namespace BancoAPI.Interfaces
         public Task<List<transferencia>> ObterTransferenciaPorUsuarioIdTipo(int usuarioId, string tipo);
         public Task<List<transferencia>> ObterTransferenciaPorUsuarioIdStatus(int usuarioId, string status);
         public Task<transferencia> ObterTransferenciaPorId(int id);
-        public void Transferir(string tipoTransferencia, int usuarioRemetenteId, int usuarioDestinatarioId, decimal valor, DateOnly dataTransferencia, string status);
+        public Task Transferir(string tipoTransferencia, int usuarioRemetenteId, int usuarioDestinatarioId, decimal valor, DateOnly dataTransferencia, string status);
     }
 }

@@ -1,4 +1,4 @@
-namespace BancoAPI.DTO
+namespace BancoAPI.DTOs.MovimentacaoDTO
 {
     public partial class ListarMovimentacaoDTO
     {

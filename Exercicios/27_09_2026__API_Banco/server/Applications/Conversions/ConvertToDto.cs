@@ -1,6 +1,9 @@
 using BancoAPI.Domains;
-using BancoAPI.DTO;
-using BancoAPI.DTOs;
+using BancoAPI.DTOs.MovimentacaoDTO;
+using BancoAPI.DTOs.LogTransferenciaDTO;
+using BancoAPI.DTOs.TransferenciaDTO;
+using BancoAPI.DTOs.UsuarioDTO;
+using BancoAPI.DTOs.UsuarioLogDTO;
 
 namespace BancoAPI.Applications.Conversions
 {

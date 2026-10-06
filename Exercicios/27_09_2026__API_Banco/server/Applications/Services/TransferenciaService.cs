@@ -1,10 +1,11 @@
 using System.Security.Claims;
-using BancoAPI;
+using BancoAPI.DTOs.TransferenciaDTO;
 using BancoAPI.Applications.Conversions;
 using BancoAPI.Domains;
 using BancoAPI.Interfaces;
+using BancoAPI.Exceptions;
 
-namespace BancoAPi
+namespace BancoAPI.Applications.Services
 {
     public class TransferenciaService
     {

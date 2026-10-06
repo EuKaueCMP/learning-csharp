@@ -25,9 +25,9 @@ namespace BancoAPI.Repositories
                             .Include(u => u.tipo_usuario)
                             .FirstAsync(u => u.usuario_id == usuarioId);
 
-        public async Task<bool> ObterUsuarioPorEmail(string email)
+        public async Task<usuario> ObterUsuarioPorEmail(string email)
                         => await _ctx.usuario
-                            .AnyAsync(u => u.email == email);
+                            .FirstAsync(u => u.email == email);
 
         public async Task Adicionar(usuario usuario)
         {

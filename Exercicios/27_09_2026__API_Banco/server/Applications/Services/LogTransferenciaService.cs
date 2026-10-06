@@ -1,9 +1,10 @@
 using BancoAPI.Applications.Conversions;
 using BancoAPI.Domains;
-using BancoAPI.DTOs;
+using BancoAPI.DTOs.LogTransferenciaDTO;
 using BancoAPI.Interfaces;
+using BancoAPI.Exceptions;
 
-namespace BancoAPI.Services
+namespace BancoAPI.Applications.Services
 {
     public class LogTransferenciaService
     {

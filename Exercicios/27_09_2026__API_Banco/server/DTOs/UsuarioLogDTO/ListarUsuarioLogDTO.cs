@@ -1,4 +1,4 @@
-namespace BancoAPI.DTOs
+namespace BancoAPI.DTOs.UsuarioLogDTO
 {
     public partial class ListarUsuarioLogDTO
     {

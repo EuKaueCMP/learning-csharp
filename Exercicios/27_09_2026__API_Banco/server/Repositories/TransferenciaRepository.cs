@@ -1,3 +1,4 @@
+using BancoAPI.Applications.Conversions;
 using BancoAPI.Contexts;
 using BancoAPI.Domains;
 using BancoAPI.Interfaces;
@@ -50,7 +51,7 @@ namespace BancoAPI.Repositories
                                 .Include(t => t.usuario_destinatario)
                                 .Where(t => t.transferencia_id == id).FirstAsync();
 
-        public void Transferir(string tipoTransferencia, int usuarioRemetenteId, int usuarioDestinatarioId, decimal valor, DateOnly dataTransferencia, string status)
+        public async Task Transferir(string tipoTransferencia, int usuarioRemetenteId, int usuarioDestinatarioId, decimal valor, DateOnly dataTransferencia, string status)
         {
             transferencia transf = new transferencia
             {
@@ -61,6 +62,9 @@ namespace BancoAPI.Repositories
                 tipo_transferencia = Enum.Parse<tipo_transferencia_enum>(tipoTransferencia),
                 status_movimentacao = Enum.Parse<status_movimentacao_enum>(status)
             };
+
+            await _ctx.transferencia.AddAsync(transf);
+            await  _ctx.SaveChangesAsync();   
         }
     }
 }
