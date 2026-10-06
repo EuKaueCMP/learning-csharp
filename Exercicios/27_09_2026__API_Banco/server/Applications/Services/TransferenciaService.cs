@@ -14,7 +14,18 @@ namespace BancoAPi
             _repository = repository;
         }
 
-        public async Task<List<ListarTransferenciaDTO>> ObterPorUsuarioRemetenteId(int usuarioId)
+        public async Task<List<ListarTransferenciaDTO>> Listar()
+        {
+            List<transferencia> transferencias = await _repository.Listar()
+                        ?? throw new DomainException("Nenhuma transferencia encontrada!");
+
+            return transferencias
+                    .Select(tr => ConvertToDto.TransferenciaToDto(tr))
+                    .ToList();
+
+        }
+
+        public async Task<List<ListarTransferenciaDTO>> ObterPorUsuarioId(int usuarioId)
         {
             if (usuarioId <= 0)
                 throw new DomainException("Nenhuma transferencia localizada");
@@ -22,15 +33,6 @@ namespace BancoAPi
             List<transferencia> transferencias = await _repository.ObterTransferenciaPorUsuarioId(usuarioId);
 
             return transferencias.Select(t => ConvertToDto.TransferenciaToDto(t)).ToList();
-        }
-
-        public async Task<List<ListarTransferenciaDTO>> ObterPorUsuarioDestinatarioId(int usuarioId)
-        {
-            if (usuarioId <= 0)
-                throw new DomainException("Nenhuma transferencia encontrada!");
-
-            List<transferencia> transferencias = await _repository.ObterTransferenciaPorUsuarioId(usuarioId);
-            return transferencias.Select(tr => ConvertToDto.TransferenciaToDto(tr)).ToList();
         }
 
         public async Task<List<ListarTransferenciaDTO>> ObterTransfrerenciaPorUsurioIdData(int usuarioId, DateOnly dataTransferencia)
@@ -51,12 +53,12 @@ namespace BancoAPi
             return transferencias.Select(tr => ConvertToDto.TransferenciaToDto(tr)).ToList();
         }
 
-        public async Task<List<ListarTransferenciaDTO>> ObteTransferenciaPorUsuarioId(int usuarioId, string status)
+        public async Task<List<ListarTransferenciaDTO>> ObteTransferenciaPorUsuarioIdStatus(int usuarioId, string status)
         {
             if (usuarioId <= 0 || status == null)
                 throw new DomainException("Nenhuma transferencia encontrada!");
 
-            List<transferencia> transferencias = await _repository.ObterTransferenciaPorUsuarioIdTipo(usuarioId, status);
+            List<transferencia> transferencias = await _repository.ObterTransferenciaPorUsuarioIdStatus(usuarioId, status);
             return transferencias.Select(tr => ConvertToDto.TransferenciaToDto(tr)).ToList();
         }
 
