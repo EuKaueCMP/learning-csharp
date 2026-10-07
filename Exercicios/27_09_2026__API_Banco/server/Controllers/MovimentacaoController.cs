@@ -18,7 +18,7 @@ namespace BancoAPI.Controllers
             {
                 return Ok(await _service.Listar());
             }
-            catch (DomainException ex)
+            catch (Exception ex)
             {
                 return NotFound(ex.Message);
             }           
@@ -45,7 +45,7 @@ namespace BancoAPI.Controllers
             {
                 return Ok(await _service.ObterPorUsuarioId(usuarioId));
             }
-            catch (DomainException ex)
+            catch (Exception ex)
             {
                 return NotFound(ex.Message);
             } 
@@ -57,7 +57,7 @@ namespace BancoAPI.Controllers
             {
                 return Ok(await _service.obterPorData(data));
             }
-            catch (DomainException ex)
+            catch (Exception ex)
             {
                 return NotFound(ex.Message);
             }
@@ -70,7 +70,7 @@ namespace BancoAPI.Controllers
             {
                 return Ok(await _service.ObterTransfrerenciaPorUsurioIdData(usuarioId, data));
             }
-            catch (DomainException ex)
+            catch (Exception ex)
             {
                 return NotFound(ex.Message);
             }
