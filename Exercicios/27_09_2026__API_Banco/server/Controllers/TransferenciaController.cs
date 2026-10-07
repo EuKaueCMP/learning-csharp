@@ -2,10 +2,14 @@ using BancoAPI.Applications.Services;
 using BancoAPI.DTOs.TransferenciaDTO;
 using Microsoft.AspNetCore.Mvc;
 using BancoAPI.Exceptions;
+using System.Security.Claims;
+using Superpower;
+using Microsoft.AspNetCore.Authorization;
 
 namespace BancoAPI.Controllers
 {
     [Route("api/[controller]")]
+    [Authorize]
     public class TransferenciaController : ControllerBase
     {
         private readonly TransferenciaService _service;
@@ -77,11 +81,15 @@ namespace BancoAPI.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<ListarTransferenciaDTO>> Transferir([FromBody] string tipoTransferencia, int usuarioRemetenteId, int usuarioDestinatarioId, decimal valor, DateOnly dataTrasnferencia)
+        public async Task<ActionResult<ListarTransferenciaDTO>> Transferir([FromBody] string tipoTransferencia, int usuarioDestinatarioId, decimal valor, DateOnly dataTrasnferencia)
         {
             try
             {
-                return Ok(_service.Transferir(tipoTransferencia, usuarioRemetenteId, usuarioDestinatarioId, valor));
+                var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+                if (userId == null)
+                    return Unauthorized("Erro, usuario não autenticado!");
+
+                return Ok(_service.Transferir(tipoTransferencia, int.Parse(userId), usuarioDestinatarioId, valor));
             }
             catch (Exception ex)
             {

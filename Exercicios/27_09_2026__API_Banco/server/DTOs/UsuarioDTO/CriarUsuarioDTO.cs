@@ -8,6 +8,6 @@ namespace BancoAPI.DTOs.UsuarioDTO
 
         public string senha { get; set; } = null!;
 
-        public int? tipo_usuario_id { get; set; }
+        public string tipo_usuario { get; set; } = string.Empty!;
     }
 }
