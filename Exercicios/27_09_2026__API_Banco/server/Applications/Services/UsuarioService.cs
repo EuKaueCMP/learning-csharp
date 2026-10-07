@@ -17,6 +17,9 @@ namespace BancoAPI.Applications.Services
             return usuarios.Select(u => ConvertToDto.UsuarioToDto(u)).ToList();
         }
 
+        public async Task<ListarUsuarioDTO> ObterUsuarioPorId(int usuarioId) => ConvertToDto.UsuarioToDto(await _repository.ObterUsuarioPorId(usuarioId) ?? throw new DomainException("Erro, nenhum usuario encontrado!"));  
+
+        public async Task<ListarUsuarioDTO> ObterUsuarioPorEmail(string email) => ConvertToDto.UsuarioToDto(await _repository.ObterUsuarioPorEmail(email)) ?? throw new DomainException("Erro, nenhum usuario encontrado!");
         public ListarUsuarioDTO Adicionar(usuario usuario)
         {
             if (string.IsNullOrWhiteSpace(usuario.nome) || string.IsNullOrWhiteSpace(usuario.email) || string.IsNullOrWhiteSpace(usuario.senha))
