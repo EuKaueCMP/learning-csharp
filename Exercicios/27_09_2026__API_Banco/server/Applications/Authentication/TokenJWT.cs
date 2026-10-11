@@ -32,10 +32,10 @@ namespace BancoAPI.Applications.Authentication
 
             var claims = new List<Claim>
             {
-                new Claim(ClaimTypes.NameIdentifier, usuario.usuario_id.ToString()),
-                new Claim(ClaimTypes.Name, usuario.nome),
-                new Claim(ClaimTypes.Email, usuario.email),
-                new Claim(ClaimTypes.Role, usuario.tipo_usuario.ToString())
+                new Claim(ClaimTypes.NameIdentifier, usuario.UsuarioId.ToString()),
+                new Claim(ClaimTypes.Name, usuario.Nome),
+                new Claim(ClaimTypes.Email, usuario.Email),
+                new Claim(ClaimTypes.Role, usuario.TipoUsuario.ToString())
             };
 
             var token = new JwtSecurityToken(
