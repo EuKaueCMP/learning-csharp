@@ -8,9 +8,16 @@ namespace BancoAPI.Services
          
          public async Task<List<deposito>> Listar() 
          {
-              List<deposito> depositos = await _repository.Listar() ?? throw new DomainException("Erro!, nenhum depósito localizado!);
+              List<ListarDepostoDTO> depositos = await _repository.Listar() ?? throw new DomainException("Erro!, nenhum depósito localizado!);
               
-              return ConvertToDto.DepositoToDto(deposito);
+              return depositos.Select(d => ConvertToDto.DepositoToDto(d));
+         }
+        
+         public async Task<List<ListarDepositoDTO>> ObterDepositoPorUsuarioId(int usuarioId)
+         {
+             List<deposito> depostos = _repository.ObterDepositoPorUsuarioId() ?? throw new DomainException("Erro, nenhum deposito localizado!");
+
+             return depositos.Select(d => ConvertToDto.DepositoToDto(d));
          }
     }
 }
