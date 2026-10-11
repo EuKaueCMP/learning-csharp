@@ -68,7 +68,8 @@ CREATE TYPE banco.tipo_deposito_enum AS ENUM('PIX', 'TED', 'DOC', 'BOLETO', 'DEP
 CREATE TABLE banco.deposito
 (
 	deposito_id SERIAL PRIMARY KEY,
-	usuario_id INTEGER NOT NULL REFERENCES banco.usuario(usuario_id),
+	numero_conta BIGINT NOT NULL REFERENCES banco.conta_usuario(numero_conta),
+	numero_agencia VARCHAR(4), 
 	valor NUMERIC(10, 2) NOT NULL,
 	tipo_deposito banco.tipo_deposito_enum NOT NULL,
 	status_movimentacao banco.status_movimentacao_enum NOT NULL,
@@ -81,14 +82,23 @@ CREATE TABLE banco.saque
 ( 
 
 	saque_id SERIAL PRIMARY KEY,
-	usuario_id INTEGER NOT NULL REFERENCES banco.usuario(usuario_id),
+	numero_conta BIGINT NOT NULL REFERENCES banco.conta_usuario(numero_conta),
+	agencia_conta VARCHAR(4) NOT NULL,
 	valor NUMERIC(10, 2) NOT NULL,
 	tipo_saque banco.tipo_saque_enum NOT NULL,
 	status_movimentacao banco.status_movimentacao_enum NOT NULL,
 	data_saque TIMESTAMP NOT NULL DEFAULT CLOCK_TIMESTAMP(),
 	localizacao_saque JSONB
-
 );
+
+ALTER TABLE banco.saque
+DROP column usuario_id;
+
+ALTER TABLE banco.saque 
+ADD COLUMN numero_conta BIGINT NOT NULL REFERENCES banco.conta_usuario(numero_conta);
+
+ALTER TABLE banco.saque 
+ADD COLUMN agencia_conta VARCHAR(4) NOT NULL;
 
 CREATE TYPE banco.tipo_pagamento_enum AS ENUM('BOLETO', 'DEBITO AUTOMATICO', 'FATURA', 'IMPOSTOS');
 
