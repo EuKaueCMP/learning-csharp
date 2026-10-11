@@ -1,0 +1,29 @@
+﻿using System;
+using System.Collections.Generic;
+
+namespace BancoAPI.Domains;
+
+public partial class Usuario
+{
+    public int UsuarioId { get; set; }
+
+    public string Nome { get; set; } = null!;
+
+    public string Email { get; set; } = null!;
+
+    public string Senha { get; set; } = null!;
+
+    public bool Status { get; set; }
+
+    public virtual ContaUsuario? ContaUsuario { get; set; }
+
+    public virtual ICollection<Movimentacao> Movimentacao { get; set; } = new List<Movimentacao>();
+
+    public virtual ICollection<Pagamento> Pagamento { get; set; } = new List<Pagamento>();
+
+    public virtual ICollection<Transferencia> TransferenciaUsuarioDestinatario { get; set; } = new List<Transferencia>();
+
+    public virtual ICollection<Transferencia> TransferenciaUsuarioRemetente { get; set; } = new List<Transferencia>();
+
+    public virtual ICollection<UsuarioLog> UsuarioLog { get; set; } = new List<UsuarioLog>();
+}
