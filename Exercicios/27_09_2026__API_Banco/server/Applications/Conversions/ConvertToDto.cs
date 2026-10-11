@@ -4,75 +4,84 @@ using BancoAPI.DTOs.LogTransferenciaDTO;
 using BancoAPI.DTOs.TransferenciaDTO;
 using BancoAPI.DTOs.UsuarioDTO;
 using BancoAPI.DTOs.UsuarioLogDTO;
+using BancoAPI.DTOs.DepositoDTO;
 
 namespace BancoAPI.Applications.Conversions
 {
     public static class ConvertToDto
     {
-        public static ListarLogTransferenciaDTO LogTransferenciaToDto(log_transferencia logTransf)
+        // public static ListarDepositoDTO DepositoToDto(deposito deposito)
+        // {
+        //     return new ListarDepositoDTO
+        //     {
+                
+        //     };
+        // }
+
+        public static ListarLogTransferenciaDTO LogTransferenciaToDto(LogTransferencia logTransf)
         {
             return new ListarLogTransferenciaDTO
             {
-                log_id = logTransf.log_id,
-                transferencia_id = logTransf.transferencia_id,
-                data_alteracao = logTransf.data_alteracao,
-                descricao_log = logTransf.descricao_log,
+                log_id = logTransf.LogId,
+                transferencia_id = logTransf.TransferenciaId,
+                data_alteracao = logTransf.DataAlteracao,
+                descricao_log = logTransf.DescricaoLog,
                 status_transferencia = logTransf.status_movimentacao_anterior.ToString()
             };
         }
 
-        public static ListarMovimentacaoDTO MovimentacaoToDto(movimentacao movimentacao)
+        public static ListarMovimentacaoDTO MovimentacaoToDto(Movimentacao movimentacao)
         {
             return new ListarMovimentacaoDTO
             {
-                movimentacao_id = movimentacao.movimentacao_id,
-                usuario_id = movimentacao.usuario_id,
+                movimentacao_id = movimentacao.MovimentacaoId,
+                usuario_id = movimentacao.UsuarioId,
                 tipo_movimentacao = movimentacao.tipo_movimentacao.ToString(),
-                saldo_anterior = movimentacao.saldo_anterior,
-                saldo_atual = movimentacao.saldo_atual,
-                data_movimentacao = movimentacao.data_movimentacao
+                saldo_anterior = movimentacao.SaldoAnterior,
+                saldo_atual = movimentacao.SaldoAtual,
+                data_movimentacao = movimentacao.DataMovimentacao
             };
         }
         
-        public static ListarTransferenciaDTO TransferenciaToDto(transferencia transferencia)
+        public static ListarTransferenciaDTO TransferenciaToDto(Transferencia transferencia)
         {
             return new ListarTransferenciaDTO
             {
-                transferencia_id = transferencia.transferencia_id,
-                nome_remetente = transferencia.usuario_remetente.nome,
-                usuario_remetente_id = transferencia.usuario_remetente_id,
-                nome_destinatario = transferencia.usuario_destinatario.nome,
-                usuario_destinatario_id = transferencia.usuario_destinatario_id,
-                data_criacao = transferencia.data_criacao,
-                data_transferencia = transferencia.data_transferencia,
+                transferencia_id = transferencia.TransferenciaId,
+                nome_remetente = transferencia.UsuarioRemetente.Nome,
+                usuario_remetente_id = transferencia.UsuarioRemetenteId,
+                nome_destinatario = transferencia.UsuarioDestinatario.Nome,
+                usuario_destinatario_id = transferencia.UsuarioDestinatarioId,
+                data_criacao = transferencia.DataCriacao,
+                data_transferencia = transferencia.DataTransferencia,
                 tipo_transferencia = transferencia.tipo_transferencia.ToString(),
                 status_transferencia = transferencia.status_movimentacao.ToString()
             };
         }
         
-        public static ListarUsuarioDTO UsuarioToDto(usuario usuario)
+        public static ListarUsuarioDTO UsuarioToDto(Usuario usuario)
         {
             return new ListarUsuarioDTO
             {
-                usuario_id = usuario.usuario_id,
-                nome = usuario.nome,
-                email = usuario.email
+                usuario_id = usuario.UsuarioId,
+                nome = usuario.Nome,
+                email = usuario.Email
             };
         }
 
-        public static ListarUsuarioLogDTO UsuarioLogToDto(usuario_log usuarioLog)
+        public static ListarUsuarioLogDTO UsuarioLogToDto(UsuarioLog usuarioLog)
         {
             return new ListarUsuarioLogDTO
             {
-                log_id = usuarioLog.log_id,
-                usuario_id = usuarioLog.usuario_id,
-                tipo_alteracao = usuarioLog.tipo_alteracao.ToString(),
-                nome_anterior = usuarioLog.nome_anterior,
-                nome_alteracao = usuarioLog.usuario.nome,
-                email_anterior = usuarioLog.email_anterior,
-                email_alteracao = usuarioLog.usuario.email,
-                valor = (Decimal)usuarioLog.usuario.conta_usuario.saldo,
-                data_alteracao = usuarioLog.data_alteracao,
+                log_id = usuarioLog.LogId,
+                usuario_id = usuarioLog.UsuarioId,
+                tipo_alteracao = usuarioLog.TipoAlteracao.ToString(),
+                nome_anterior = usuarioLog.NomeAnterior,
+                nome_alteracao = usuarioLog.Usuario.Nome,
+                email_anterior = usuarioLog.EmailAnterior,
+                email_alteracao = usuarioLog.Usuario.Email,
+                valor = (Decimal)usuarioLog.Usuario.ContaUsuario.Saldo,
+                data_alteracao = usuarioLog.DataAlteracao,
             };
         }
     }

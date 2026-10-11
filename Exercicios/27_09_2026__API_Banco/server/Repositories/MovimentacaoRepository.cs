@@ -11,43 +11,43 @@ namespace BancoAPI.Repositories
         private readonly AppDbContext _ctx;
         public MovimentacaoRepository(AppDbContext ctx) => _ctx = ctx;
 
-        public async Task<List<movimentacao>> Listar()
-                             => await _ctx.movimentacao
-                                .OrderByDescending(m => m.data_movimentacao)
-                                .Include(m => m.usuario)
+        public async Task<List<Movimentacao>> Listar()
+                             => await _ctx.Movimentacao
+                                .OrderByDescending(m => m.DataMovimentacao)
+                                .Include(m => m.Usuario)
                                 .Include(m => m.tipo_movimentacao)
                                 .ToListAsync();
 
-        public async Task<List<movimentacao>> ObterPorUsuarioId(int usuarioId)
-                            => await _ctx.movimentacao
-                                .OrderByDescending(m => m.data_movimentacao)
-                                .Include(m => m.usuario)
+        public async Task<List<Movimentacao>> ObterPorUsuarioId(int usuarioId)
+                            => await _ctx.Movimentacao
+                                .OrderByDescending(m => m.DataMovimentacao)
+                                .Include(m => m.Usuario)
                                 .Include(m => m.tipo_movimentacao)
-                                .Where(m => m.usuario_id == usuarioId)
+                                .Where(m => m.UsuarioId == usuarioId)
                                 .ToListAsync();
 
-        public async Task<List<movimentacao>> ObterPorData(DateOnly data)
-                             => await _ctx.movimentacao
-                                .OrderByDescending(m => m.data_movimentacao)
-                                .Include(m => m.usuario)
+        public async Task<List<Movimentacao>> ObterPorData(DateOnly data)
+                             => await _ctx.Movimentacao
+                                .OrderByDescending(m => m.DataMovimentacao)
+                                .Include(m => m.Usuario)
                                 .Include(m => m.tipo_movimentacao)
-                                .Where(l => DateTimeToOnly.ToOnly(l.data_movimentacao
+                                .Where(l => DateTimeToOnly.ToOnly(l.DataMovimentacao
                                     ?? DateTime.Now) == data)
                                 .ToListAsync();
 
-        public async Task<List<movimentacao>> ObterTransfrerenciaPorUsurioIdData(int usuarioId, DateOnly data)
-                             => await _ctx.movimentacao
-                                .OrderByDescending(m => m.data_movimentacao)
-                                .Include(m => m.usuario)
+        public async Task<List<Movimentacao>> ObterTransfrerenciaPorUsurioIdData(int usuarioId, DateOnly data)
+                             => await _ctx.Movimentacao
+                                .OrderByDescending(m => m.DataMovimentacao)
+                                .Include(m => m.Usuario)
                                 .Include(m => m.tipo_movimentacao)
-                                .Where(m => m.usuario_id == usuarioId && DateTimeToOnly.ToOnly(m.data_movimentacao
+                                .Where(m => m.UsuarioId == usuarioId && DateTimeToOnly.ToOnly(m.DataMovimentacao
                                     ?? DateTime.Now) == data)
                                 .ToListAsync();
 
-        public async Task<movimentacao> ObterPorId(int id)
-                             => await _ctx.movimentacao
-                                .Include(m => m.usuario)
+        public async Task<Movimentacao> ObterPorId(int id)
+                             => await _ctx.Movimentacao
+                                .Include(m => m.Usuario)
                                 .Include(m => m.tipo_movimentacao)
-                                .FirstAsync(m => m.movimentacao_id == id);
+                                .FirstAsync(m => m.MovimentacaoId == id);
     }
 }

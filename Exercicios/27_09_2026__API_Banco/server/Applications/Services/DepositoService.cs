@@ -1,23 +1,45 @@
-namespace BancoAPI.Services
-{
-    public class DepositoService 
-    {
-         private readonly IDepositoRepository _repository;
+// using BancoAPI.Applications.Conversions;
+// using BancoAPI.Domains;
+// using BancoAPI.DTOs.DepositoDTO;
+// using BancoAPI.Exceptions;
+// using BancoAPI.Interfaces;
 
-         public DepositoService(IDepositoRepository repository);
-         
-         public async Task<List<deposito>> Listar() 
-         {
-              List<ListarDepostoDTO> depositos = await _repository.Listar() ?? throw new DomainException("Erro!, nenhum depósito localizado!);
-              
-              return depositos.Select(d => ConvertToDto.DepositoToDto(d));
-         }
-        
-         public async Task<List<ListarDepositoDTO>> ObterDepositoPorUsuarioId(int usuarioId)
-         {
-             List<deposito> depostos = _repository.ObterDepositoPorUsuarioId() ?? throw new DomainException("Erro, nenhum deposito localizado!");
+// namespace BancoAPI.Services
+// {
+//     public class DepositoService
+//     {
+//         private readonly IDepositoRepository _repository;
 
-             return depositos.Select(d => ConvertToDto.DepositoToDto(d));
-         }
-    }
-}
+//         public DepositoService(IDepositoRepository repository) => _repository = repository;
+
+//         public async Task<List<ListarDepositoDTO>> Listar()
+//         {
+//             List<deposito> depositos = await _repository.Listar()
+//                                                 ?? throw new DomainException("Erro!, nenhum depósito localizado!");
+
+
+//             return depositos.Select(d => ConvertToDto.DepositoToDto(d)).ToList();
+//         }
+
+//         public async Task<List<ListarDepositoDTO>> ObterDepositoPorUsuarioId(int usuarioId)
+//         {
+//             List<deposito> depositos = await _repository.ListarDepositoPorUsuarioId(usuarioId)
+//                                                 ?? throw new DomainException("Erro, nenhum deposito localizado!");
+
+//             return depositos.Select(d => ConvertToDto.DepositoToDto(d)).ToList();
+//         }
+
+//         public async Task<ListarDepositoDTO> ObterDepositoPorId(int depositoId)
+//                 => ConvertToDto.DepositoToDto(await _repository.ObterDepositoPorId(depositoId) ?? throw new DomainException("Erro, nenhum deposito localizado!"));
+
+//         // public async Task<ListarDepositoDTO> Depositar(deposito deposito)
+//         // {
+//         //     if (deposito.usuario_id <= 0 || deposito.valor <= 0 ||
+//         //          string.IsNullOrWhiteSpace(deposito.status_movimentacao.ToString()) ||
+//         //          string.IsNullOrWhiteSpace(deposito.tipo_deposito.ToString()))
+//         //             throw new DomainException("Erro, Preencha todos os campos sao obrigatórios!");
+
+            
+//         // }
+//     }
+// }

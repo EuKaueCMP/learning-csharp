@@ -13,38 +13,38 @@ namespace BancoAPI.Applications.Services
 
         public async Task<List<ListarUsuarioDTO>> Listar()
         {
-            List<usuario> usuarios = await _repository.Listar();
+            List<Usuario> usuarios = await _repository.Listar();
             return usuarios.Select(u => ConvertToDto.UsuarioToDto(u)).ToList();
         }
 
         public async Task<ListarUsuarioDTO> ObterUsuarioPorId(int usuarioId) => ConvertToDto.UsuarioToDto(await _repository.ObterUsuarioPorId(usuarioId) ?? throw new DomainException("Erro, nenhum usuario encontrado!"));  
 
         public async Task<ListarUsuarioDTO> ObterUsuarioPorEmail(string email) => ConvertToDto.UsuarioToDto(await _repository.ObterUsuarioPorEmail(email)) ?? throw new DomainException("Erro, nenhum usuario encontrado!");
-        public ListarUsuarioDTO Adicionar(usuario usuario)
+        public ListarUsuarioDTO Adicionar(Usuario usuario)
         {
-            if (string.IsNullOrWhiteSpace(usuario.nome) || string.IsNullOrWhiteSpace(usuario.email) || string.IsNullOrWhiteSpace(usuario.senha))
+            if (string.IsNullOrWhiteSpace(usuario.Nome) || string.IsNullOrWhiteSpace(usuario.Email) || string.IsNullOrWhiteSpace(usuario.Senha))
                 throw new DomainException("Erro! Todos os campos são obrigatorios.");
 
             byte[] salt = PassToArgon2.GenerateSalt();
-            string senha = PassToArgon2.HashPassword(usuario.senha, salt);
+            string senha = PassToArgon2.HashPassword(usuario.Senha, salt);
 
-            usuario usuarioAdicionado = new usuario
+            Usuario usuarioAdicionado = new Usuario
             {
-                nome = usuario.nome,
-                email = usuario.email,
-                senha = senha,
+                Nome = usuario.Nome,
+                Email = usuario.Email,
+                Senha = senha,
             };
 
             _repository.Adicionar(usuarioAdicionado);
             return ConvertToDto.UsuarioToDto(usuarioAdicionado);
         }
 
-        public ListarUsuarioDTO Atualizar(usuario usuario, string senha)
+        public ListarUsuarioDTO Atualizar(Usuario usuario, string senha)
         {
-            if (string.IsNullOrWhiteSpace(usuario.nome) || string.IsNullOrWhiteSpace(usuario.email) || string.IsNullOrWhiteSpace(usuario.senha))
+            if (string.IsNullOrWhiteSpace(usuario.Nome) || string.IsNullOrWhiteSpace(usuario.Email) || string.IsNullOrWhiteSpace(usuario.Senha))
                 throw new DomainException("Erro! Todos os campos são obrigatorios.");
 
-            if (!PassToArgon2.VerifyPassword(senha, usuario.senha))
+            if (!PassToArgon2.VerifyPassword(senha, usuario.Senha))
                 throw new DomainException("Erro! senha inválida!");
 
             _repository.Atualizar(usuario);
@@ -53,14 +53,14 @@ namespace BancoAPI.Applications.Services
 
         public async Task AtualizarSenha(int usuarioId, string senha)
         {
-            usuario usuario = await _repository.ObterUsuarioPorId(usuarioId);
+            Usuario usuario = await _repository.ObterUsuarioPorId(usuarioId);
             if (usuario == null)
                 throw new DomainException("Erro! Nenhum usuario encontrado");
 
             if (string.IsNullOrWhiteSpace(senha))
                 throw new DomainException("A senha é obrigatoria");
 
-            if (!PassToArgon2.VerifyPassword(senha, usuario.senha))
+            if (!PassToArgon2.VerifyPassword(senha, usuario.Senha))
                 throw new DomainException("Erro, senha inválida!");
 
             byte[] salt = PassToArgon2.GenerateSalt();
@@ -71,7 +71,7 @@ namespace BancoAPI.Applications.Services
 
         public async Task Remover(int usuarioId)
         {
-            usuario usuario = await _repository.ObterUsuarioPorId(usuarioId)
+            Usuario usuario = await _repository.ObterUsuarioPorId(usuarioId)
                     ?? throw new DomainException("Erro, nenhum usuario encontrado!");
 
             _repository.Remover(usuario);

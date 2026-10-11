@@ -20,11 +20,11 @@ namespace BancoAPI.Applications.Services
 
         public async Task<TokenResponseDto> Login(string email, string senha)
         {
-            usuario usuario = await _repository.ObterUsuarioPorEmail(email);
+            Usuario usuario = await _repository.ObterUsuarioPorEmail(email);
             if (usuario == null)
                 throw new DomainException("Erro! email ou senha inválidos!");
 
-            if (!PassToArgon2.VerifyPassword(senha, usuario.senha))
+            if (!PassToArgon2.VerifyPassword(senha, usuario.Senha))
                 throw new DomainException("Erro! email ou senha inválidos!");
 
             string tokenJwt = _jwt.GerarToken(usuario);
@@ -32,7 +32,7 @@ namespace BancoAPI.Applications.Services
             TokenResponseDto tokenDto = new TokenResponseDto
             {
                 Token = tokenJwt,
-                TipoUsuario = usuario.tipo_usuario.ToString()
+                TipoUsuario = usuario.TipoUsuario.ToString()
             };
 
             return tokenDto;

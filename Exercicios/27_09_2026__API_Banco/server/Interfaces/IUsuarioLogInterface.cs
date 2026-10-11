@@ -4,8 +4,8 @@ namespace BancoAPI.Interfaces
 {
     public interface IUsuarioLogRepository
     {
-        public Task<List<usuario_log>> Listar();
-        public Task<usuario_log> ObterLogPorId(int id);
-        public Task<List<usuario_log>> ObterLogPorUsuarioId(int usuarioId);
+        public Task<List<UsuarioLog>> Listar();
+        public Task<UsuarioLog> ObterLogPorId(int id);
+        public Task<List<UsuarioLog>> ObterLogPorUsuarioId(int usuarioId);
     }
 }

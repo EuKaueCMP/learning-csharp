@@ -10,21 +10,21 @@ namespace BancoAPI.Repositories
         private readonly AppDbContext _ctx;
         public UsuarioLogRepository(AppDbContext ctx) => _ctx = ctx;
 
-        public Task<List<usuario_log>> Listar()
-                            => _ctx.usuario_log
-                                .OrderByDescending(ul => ul.data_alteracao)
+        public Task<List<UsuarioLog>> Listar()
+                            => _ctx.UsuarioLog
+                                .OrderByDescending(ul => ul.DataAlteracao)
                                 .ToListAsync();
 
-        public Task<List<usuario_log>> ObterLogPorUsuarioId(int usuarioId)
-                             => _ctx.usuario_log
-                                .Include(l => l.usuario)
-                                .Where(l => l.usuario_id == usuarioId)
-                                .OrderByDescending(l => l.data_alteracao)
+        public Task<List<UsuarioLog>> ObterLogPorUsuarioId(int usuarioId)
+                             => _ctx.UsuarioLog
+                                .Include(l => l.Usuario)
+                                .Where(l => l.UsuarioId == usuarioId)
+                                .OrderByDescending(l => l.DataAlteracao)
                                 .ToListAsync();
                                 
-        public async Task<usuario_log> ObterLogPorId(int id)
-                            => await _ctx.usuario_log
-                                .Include(l => l.usuario)
-                                .Where(l => l.log_id == id).FirstAsync();
+        public async Task<UsuarioLog> ObterLogPorId(int id)
+                            => await _ctx.UsuarioLog
+                                .Include(l => l.Usuario)
+                                .Where(l => l.LogId == id).FirstAsync();
     }
 }

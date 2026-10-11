@@ -4,16 +4,16 @@ namespace BancoAPI.Interfaces
 {
     public interface ITransferenciaRepository
     {
-        public Task<List<transferencia>> Listar();
+        public Task<List<Transferencia>> Listar();
         //? Busca toda e qualquer transferencia
         //? que menciona o usuarioId estar
         //? Exemplo:
         //? Listagem de 
-        public Task<List<transferencia>> ObterTransferenciaPorUsuarioId(int usuarioId);
-        public Task<List<transferencia>> ObterTransferenciaPorUsurioIdData(int usuarioid, DateOnly data);
-        public Task<List<transferencia>> ObterTransferenciaPorUsuarioIdTipo(int usuarioId, string tipo);
-        public Task<List<transferencia>> ObterTransferenciaPorUsuarioIdStatus(int usuarioId, string status);
-        public Task<transferencia> ObterTransferenciaPorId(int id);
+        public Task<List<Transferencia>> ObterTransferenciaPorUsuarioId(int usuarioId);
+        public Task<List<Transferencia>> ObterTransferenciaPorUsurioIdData(int usuarioid, DateOnly data);
+        public Task<List<Transferencia>> ObterTransferenciaPorUsuarioIdTipo(int usuarioId, string tipo);
+        public Task<List<Transferencia>> ObterTransferenciaPorUsuarioIdStatus(int usuarioId, string status);
+        public Task<Transferencia> ObterTransferenciaPorId(int id);
         public Task Transferir(string tipoTransferencia, int usuarioRemetenteId, int usuarioDestinatarioId, decimal valor, DateOnly dataTransferencia, string status);
     }
 }

@@ -14,7 +14,7 @@ namespace BancoAPI.Applications.Services
 
         public async Task<List<ListarUsuarioLogDTO>> Listar()
         {
-            List<usuario_log> logs = await _repository.Listar()
+            List<UsuarioLog> logs = await _repository.Listar()
                 ?? throw new DomainException("Nenhum logs de usuario encontrado!");
 
             return logs.Select(ul => ConvertToDto.UsuarioLogToDto(ul)).ToList();
@@ -23,7 +23,7 @@ namespace BancoAPI.Applications.Services
 
         public async Task<List<ListarUsuarioLogDTO>> ObterLogPorUsuarioId(int usuarioId)
         {
-            List<usuario_log> logs = await _repository.ObterLogPorUsuarioId(usuarioId) 
+            List<UsuarioLog> logs = await _repository.ObterLogPorUsuarioId(usuarioId) 
                     ?? throw new DomainException("Nenhum log do usuario encontrado!");
             return logs.Select(ul => ConvertToDto.UsuarioLogToDto(ul)).ToList();
         }

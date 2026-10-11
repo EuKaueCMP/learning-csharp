@@ -9,7 +9,7 @@ public partial class UsuarioLog
 
     public int UsuarioId { get; set; }
 
-    public tipo_alteracao_enum tipo_alteracao { get; set; }
+    public tipo_alteracao_enum TipoAlteracao { get; set; }
 
     public string SenhaAnterior { get; set; } = null!;
 

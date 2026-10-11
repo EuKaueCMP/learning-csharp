@@ -13,7 +13,7 @@ namespace BancoAPI.Applications.Services
 
         public async Task<List<ListarLogTransferenciaDTO>> Listar()
         {
-            List<log_transferencia> logs = await _repository.Listar();
+            List<LogTransferencia> logs = await _repository.Listar();
             if (logs == null)
                 throw new DomainException("Nenhum log de transfenrencia encontrado!");
 
@@ -22,7 +22,7 @@ namespace BancoAPI.Applications.Services
 
         public async Task<List<ListarLogTransferenciaDTO>> ObterPorUsuarioId(int usuarioId)
         {
-            List<log_transferencia> logs = await _repository.ObterPorUsuarioId(usuarioId);
+            List<LogTransferencia> logs = await _repository.ObterPorUsuarioId(usuarioId);
             if (logs == null)
                 throw new DomainException("Nenhum log de transferencia encontrado!");
 
@@ -31,13 +31,13 @@ namespace BancoAPI.Applications.Services
 
         public async Task<List<ListarLogTransferenciaDTO>> ObterPorStatus(string status)
         {
-            List<log_transferencia> logs = await _repository.ObterPorStatus(status) ?? throw new DomainException("Log de transferencia nao localizado!");
+            List<LogTransferencia> logs = await _repository.ObterPorStatus(status) ?? throw new DomainException("Log de transferencia nao localizado!");
             return logs.Select(lw => ConvertToDto.LogTransferenciaToDto(lw)).ToList();
         }
 
         public async Task<List<ListarLogTransferenciaDTO>> ObterPorUsuarioIdStatus(int usuarioId, string status)
         {
-            List<log_transferencia> logs = (await _repository.ObterPorUsuarioIdStatus(usuarioId, status)
+            List<LogTransferencia> logs = (await _repository.ObterPorUsuarioIdStatus(usuarioId, status)
                             ?? throw new DomainException("Log de transferencia nao localizado!"));
 
             return logs.Select(lw => ConvertToDto.LogTransferenciaToDto(lw)).ToList();

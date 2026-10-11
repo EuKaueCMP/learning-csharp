@@ -13,7 +13,7 @@ namespace BancoAPI.Applications.Authentication
 
         public TokenJWT(IConfiguration config) => _config = config;
 
-        public string GerarToken(usuario usuario)
+        public string GerarToken(Usuario usuario)
         {
             var chave = Environment.GetEnvironmentVariable("JWT_KEY");
             if (string.IsNullOrWhiteSpace(chave))

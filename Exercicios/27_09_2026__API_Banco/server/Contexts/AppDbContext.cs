@@ -7,28 +7,36 @@ namespace BancoAPI.Contexts;
 
 public partial class AppDbContext : DbContext
 {
+    public AppDbContext()
+    {
+    }
+
     public AppDbContext(DbContextOptions<AppDbContext> options)
         : base(options)
     {
     }
 
-    public virtual DbSet<conta_usuario> conta_usuario { get; set; }
+    public virtual DbSet<ContaUsuario> ContaUsuario { get; set; }
 
-    public virtual DbSet<deposito> deposito { get; set; }
+    public virtual DbSet<Deposito> Deposito { get; set; }
 
-    public virtual DbSet<log_transferencia> log_transferencia { get; set; }
+    public virtual DbSet<LogTransferencia> LogTransferencia { get; set; }
 
-    public virtual DbSet<movimentacao> movimentacao { get; set; }
+    public virtual DbSet<Movimentacao> Movimentacao { get; set; }
 
-    public virtual DbSet<pagamento> pagamento { get; set; }
+    public virtual DbSet<Pagamento> Pagamento { get; set; }
 
-    public virtual DbSet<saque> saque { get; set; }
+    public virtual DbSet<Saque> Saque { get; set; }
 
-    public virtual DbSet<transferencia> transferencia { get; set; }
+    public virtual DbSet<Transferencia> Transferencia { get; set; }
 
-    public virtual DbSet<usuario> usuario { get; set; }
+    public virtual DbSet<Usuario> Usuario { get; set; }
 
-    public virtual DbSet<usuario_log> usuario_log { get; set; }
+    public virtual DbSet<UsuarioLog> UsuarioLog { get; set; }
+
+    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see https://go.microsoft.com/fwlink/?LinkId=723263.
+        => optionsBuilder.UseNpgsql("Server=localhost;Port=5432;User Id=postgres;Password=Admin123!;Database=ksc_bank;Trust Server Certificate=true");
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -42,166 +50,231 @@ public partial class AppDbContext : DbContext
             .HasPostgresEnum("banco", "tipo_transferencia_enum", new[] { "PIX", "PIX AGENDADO", "TED", "DOC", "TEF", "SWIFT" })
             .HasPostgresEnum("banco", "tipo_usuario_enum", new[] { "ADMIN", "SUPORTE", "PESSOA_FISICA", "PESSOA_JURIDICA" });
 
-        modelBuilder.Entity<conta_usuario>(entity =>
+        modelBuilder.Entity<ContaUsuario>(entity =>
         {
-            entity.HasKey(e => e.numero_conta).HasName("conta_usuario_pkey");
+            entity.HasKey(e => e.NumeroConta).HasName("conta_usuario_pkey");
 
             entity.ToTable("conta_usuario", "banco");
 
-            entity.HasIndex(e => e.usuario_id, "conta_usuario_usuario_id_key").IsUnique();
+            entity.HasIndex(e => e.UsuarioId, "conta_usuario_usuario_id_key").IsUnique();
 
-            entity.Property(e => e.numero_conta)
+            entity.Property(e => e.NumeroConta)
                 .UseIdentityAlwaysColumn()
-                .HasIdentityOptions(100001L, null, null, null, null, null);
-            entity.Property(e => e.numero_agencia)
+                .HasIdentityOptions(100001L, null, null, null, null, null)
+                .HasColumnName("numero_conta");
+            entity.Property(e => e.NumeroAgencia)
                 .HasMaxLength(4)
-                .HasDefaultValueSql("'0999'::character varying");
-            entity.Property(e => e.saldo)
+                .HasDefaultValueSql("'0999'::character varying")
+                .HasColumnName("numero_agencia");
+            entity.Property(e => e.Saldo)
                 .HasPrecision(10, 2)
-                .HasDefaultValue(0m);
+                .HasDefaultValue(0m)
+                .HasColumnName("saldo");
+            entity.Property(e => e.UsuarioId).HasColumnName("usuario_id");
 
-            entity.HasOne(d => d.usuario).WithOne(p => p.conta_usuario)
-                .HasForeignKey<conta_usuario>(d => d.usuario_id)
+            entity.HasOne(d => d.Usuario).WithOne(p => p.ContaUsuario)
+                .HasForeignKey<ContaUsuario>(d => d.UsuarioId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("conta_usuario_usuario_id_fkey");
         });
 
-        modelBuilder.Entity<deposito>(entity =>
+        modelBuilder.Entity<Deposito>(entity =>
         {
-            entity.HasKey(e => e.deposito_id).HasName("deposito_pkey");
+            entity.HasKey(e => e.DepositoId).HasName("deposito_pkey");
 
             entity.ToTable("deposito", "banco");
 
-            entity.Property(e => e.data_deposito)
+            entity.Property(e => e.DepositoId).HasColumnName("deposito_id");
+            entity.Property(e => e.DataDeposito)
                 .HasDefaultValueSql("clock_timestamp()")
-                .HasColumnType("timestamp without time zone");
-            entity.Property(e => e.valor).HasPrecision(10, 2);
+                .HasColumnType("timestamp without time zone")
+                .HasColumnName("data_deposito");
+            entity.Property(e => e.NumeroAgencia)
+                .HasMaxLength(4)
+                .HasColumnName("numero_agencia");
+            entity.Property(e => e.NumeroConta).HasColumnName("numero_conta");
+            entity.Property(e => e.Valor)
+                .HasPrecision(10, 2)
+                .HasColumnName("valor");
 
-            entity.HasOne(d => d.usuario).WithMany(p => p.deposito)
-                .HasForeignKey(d => d.usuario_id)
+            entity.HasOne(d => d.NumeroContaNavigation).WithMany(p => p.Deposito)
+                .HasForeignKey(d => d.NumeroConta)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("deposito_usuario_id_fkey");
+                .HasConstraintName("deposito_numero_conta_fkey");
         });
 
-        modelBuilder.Entity<log_transferencia>(entity =>
+        modelBuilder.Entity<LogTransferencia>(entity =>
         {
-            entity.HasKey(e => e.log_id).HasName("log_transferencia_pkey");
+            entity.HasKey(e => e.LogId).HasName("log_transferencia_pkey");
 
             entity.ToTable("log_transferencia", "banco");
 
-            entity.Property(e => e.data_alteracao)
+            entity.Property(e => e.LogId).HasColumnName("log_id");
+            entity.Property(e => e.DataAlteracao)
                 .HasDefaultValueSql("clock_timestamp()")
-                .HasColumnType("timestamp without time zone");
+                .HasColumnType("timestamp without time zone")
+                .HasColumnName("data_alteracao");
+            entity.Property(e => e.DescricaoLog).HasColumnName("descricao_log");
+            entity.Property(e => e.TransferenciaId).HasColumnName("transferencia_id");
 
-            entity.HasOne(d => d.transferencia).WithMany(p => p.log_transferencia)
-                .HasForeignKey(d => d.transferencia_id)
+            entity.HasOne(d => d.Transferencia).WithMany(p => p.LogTransferencia)
+                .HasForeignKey(d => d.TransferenciaId)
                 .HasConstraintName("log_transferencia_transferencia_id_fkey");
         });
 
-        modelBuilder.Entity<movimentacao>(entity =>
+        modelBuilder.Entity<Movimentacao>(entity =>
         {
-            entity.HasKey(e => e.movimentacao_id).HasName("movimentacao_pkey");
+            entity.HasKey(e => e.MovimentacaoId).HasName("movimentacao_pkey");
 
             entity.ToTable("movimentacao", "banco");
 
-            entity.Property(e => e.data_movimentacao)
+            entity.Property(e => e.MovimentacaoId).HasColumnName("movimentacao_id");
+            entity.Property(e => e.DataMovimentacao)
                 .HasDefaultValueSql("clock_timestamp()")
-                .HasColumnType("timestamp without time zone");
-            entity.Property(e => e.informacoes).HasColumnType("jsonb");
-            entity.Property(e => e.saldo_anterior).HasPrecision(10, 2);
-            entity.Property(e => e.saldo_atual).HasPrecision(10, 2);
-            entity.Property(e => e.saldo_movimentado).HasPrecision(10, 2);
+                .HasColumnType("timestamp without time zone")
+                .HasColumnName("data_movimentacao");
+            entity.Property(e => e.Informacoes)
+                .HasColumnType("jsonb")
+                .HasColumnName("informacoes");
+            entity.Property(e => e.SaldoAnterior)
+                .HasPrecision(10, 2)
+                .HasColumnName("saldo_anterior");
+            entity.Property(e => e.SaldoAtual)
+                .HasPrecision(10, 2)
+                .HasColumnName("saldo_atual");
+            entity.Property(e => e.SaldoMovimentado)
+                .HasPrecision(10, 2)
+                .HasColumnName("saldo_movimentado");
+            entity.Property(e => e.UsuarioId).HasColumnName("usuario_id");
 
-            entity.HasOne(d => d.usuario).WithMany(p => p.movimentacao)
-                .HasForeignKey(d => d.usuario_id)
+            entity.HasOne(d => d.Usuario).WithMany(p => p.Movimentacao)
+                .HasForeignKey(d => d.UsuarioId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("movimentacao_usuario_id_fkey");
         });
 
-        modelBuilder.Entity<pagamento>(entity =>
+        modelBuilder.Entity<Pagamento>(entity =>
         {
-            entity.HasKey(e => e.pagamento_id).HasName("pagamento_pkey");
+            entity.HasKey(e => e.PagamentoId).HasName("pagamento_pkey");
 
             entity.ToTable("pagamento", "banco");
 
-            entity.Property(e => e.valor).HasPrecision(10, 2);
+            entity.Property(e => e.PagamentoId).HasColumnName("pagamento_id");
+            entity.Property(e => e.UsuarioId).HasColumnName("usuario_id");
+            entity.Property(e => e.Valor)
+                .HasPrecision(10, 2)
+                .HasColumnName("valor");
 
-            entity.HasOne(d => d.usuario).WithMany(p => p.pagamento)
-                .HasForeignKey(d => d.usuario_id)
+            entity.HasOne(d => d.Usuario).WithMany(p => p.Pagamento)
+                .HasForeignKey(d => d.UsuarioId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("pagamento_usuario_id_fkey");
         });
 
-        modelBuilder.Entity<saque>(entity =>
+        modelBuilder.Entity<Saque>(entity =>
         {
-            entity.HasKey(e => e.saque_id).HasName("saque_pkey");
+            entity.HasKey(e => e.SaqueId).HasName("saque_pkey");
 
             entity.ToTable("saque", "banco");
 
-            entity.Property(e => e.data_saque)
+            entity.Property(e => e.SaqueId).HasColumnName("saque_id");
+            entity.Property(e => e.AgenciaConta)
+                .HasMaxLength(4)
+                .HasColumnName("agencia_conta");
+            entity.Property(e => e.DataSaque)
                 .HasDefaultValueSql("clock_timestamp()")
-                .HasColumnType("timestamp without time zone");
-            entity.Property(e => e.localizacao_saque).HasColumnType("jsonb");
-            entity.Property(e => e.valor).HasPrecision(10, 2);
+                .HasColumnType("timestamp without time zone")
+                .HasColumnName("data_saque");
+            entity.Property(e => e.LocalizacaoSaque)
+                .HasColumnType("jsonb")
+                .HasColumnName("localizacao_saque");
+            entity.Property(e => e.NumeroConta).HasColumnName("numero_conta");
+            entity.Property(e => e.Valor)
+                .HasPrecision(10, 2)
+                .HasColumnName("valor");
 
-            entity.HasOne(d => d.usuario).WithMany(p => p.saque)
-                .HasForeignKey(d => d.usuario_id)
+            entity.HasOne(d => d.NumeroContaNavigation).WithMany(p => p.Saque)
+                .HasForeignKey(d => d.NumeroConta)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("saque_usuario_id_fkey");
+                .HasConstraintName("saque_numero_conta_fkey");
         });
 
-        modelBuilder.Entity<transferencia>(entity =>
+        modelBuilder.Entity<Transferencia>(entity =>
         {
-            entity.HasKey(e => e.transferencia_id).HasName("transferencia_pkey");
+            entity.HasKey(e => e.TransferenciaId).HasName("transferencia_pkey");
 
             entity.ToTable("transferencia", "banco");
 
-            entity.Property(e => e.data_criacao)
+            entity.Property(e => e.TransferenciaId).HasColumnName("transferencia_id");
+            entity.Property(e => e.DataCriacao)
                 .HasDefaultValueSql("clock_timestamp()")
-                .HasColumnType("timestamp without time zone");
-            entity.Property(e => e.data_transferencia).HasColumnType("timestamp without time zone");
-            entity.Property(e => e.valor).HasPrecision(10, 2);
+                .HasColumnType("timestamp without time zone")
+                .HasColumnName("data_criacao");
+            entity.Property(e => e.DataTransferencia)
+                .HasColumnType("timestamp without time zone")
+                .HasColumnName("data_transferencia");
+            entity.Property(e => e.UsuarioDestinatarioId).HasColumnName("usuario_destinatario_id");
+            entity.Property(e => e.UsuarioRemetenteId).HasColumnName("usuario_remetente_id");
+            entity.Property(e => e.Valor)
+                .HasPrecision(10, 2)
+                .HasColumnName("valor");
 
-            entity.HasOne(d => d.usuario_destinatario).WithMany(p => p.transferenciausuario_destinatario)
-                .HasForeignKey(d => d.usuario_destinatario_id)
+            entity.HasOne(d => d.UsuarioDestinatario).WithMany(p => p.TransferenciaUsuarioDestinatario)
+                .HasForeignKey(d => d.UsuarioDestinatarioId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("transferencia_usuario_destinatario_id_fkey");
 
-            entity.HasOne(d => d.usuario_remetente).WithMany(p => p.transferenciausuario_remetente)
-                .HasForeignKey(d => d.usuario_remetente_id)
+            entity.HasOne(d => d.UsuarioRemetente).WithMany(p => p.TransferenciaUsuarioRemetente)
+                .HasForeignKey(d => d.UsuarioRemetenteId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("transferencia_usuario_remetente_id_fkey");
         });
 
-        modelBuilder.Entity<usuario>(entity =>
+        modelBuilder.Entity<Usuario>(entity =>
         {
-            entity.HasKey(e => e.usuario_id).HasName("usuario_pkey");
+            entity.HasKey(e => e.UsuarioId).HasName("usuario_pkey");
 
             entity.ToTable("usuario", "banco");
 
-            entity.HasIndex(e => e.email, "usuario_email_key").IsUnique();
+            entity.HasIndex(e => e.Email, "usuario_email_key").IsUnique();
 
-            entity.Property(e => e.email).HasMaxLength(100);
-            entity.Property(e => e.senha).HasMaxLength(100);
-            entity.Property(e => e.status).HasDefaultValue(true);
+            entity.Property(e => e.UsuarioId).HasColumnName("usuario_id");
+            entity.Property(e => e.Email)
+                .HasMaxLength(100)
+                .HasColumnName("email");
+            entity.Property(e => e.Nome).HasColumnName("nome");
+            entity.Property(e => e.Senha)
+                .HasMaxLength(100)
+                .HasColumnName("senha");
+            entity.Property(e => e.Status)
+                .HasDefaultValue(true)
+                .HasColumnName("status");
         });
 
-        modelBuilder.Entity<usuario_log>(entity =>
+        modelBuilder.Entity<UsuarioLog>(entity =>
         {
-            entity.HasKey(e => e.log_id).HasName("usuario_log_pkey");
+            entity.HasKey(e => e.LogId).HasName("usuario_log_pkey");
 
             entity.ToTable("usuario_log", "banco");
 
-            entity.Property(e => e.email_anterior).HasMaxLength(100);
-            entity.Property(e => e.nome_anterior).HasMaxLength(100);
-            entity.Property(e => e.senha_anterior).HasMaxLength(100);
+            entity.Property(e => e.LogId).HasColumnName("log_id");
+            entity.Property(e => e.DataAlteracao)
+                .HasDefaultValueSql("clock_timestamp()")
+                .HasColumnType("timestamp without time zone")
+                .HasColumnName("data_alteracao");
+            entity.Property(e => e.EmailAnterior)
+                .HasMaxLength(100)
+                .HasColumnName("email_anterior");
+            entity.Property(e => e.NomeAnterior)
+                .HasMaxLength(100)
+                .HasColumnName("nome_anterior");
+            entity.Property(e => e.SenhaAnterior)
+                .HasMaxLength(100)
+                .HasColumnName("senha_anterior");
+            entity.Property(e => e.UsuarioId).HasColumnName("usuario_id");
 
-            entity.Property(e => e.data_alteracao)
-                            .HasDefaultValueSql("clock_timestamp()")
-                            .HasColumnType("timestamp without time zone");
-
-            entity.HasOne(d => d.usuario).WithMany(p => p.usuario_log)
-                .HasForeignKey(d => d.usuario_id)
+            entity.HasOne(d => d.Usuario).WithMany(p => p.UsuarioLog)
+                .HasForeignKey(d => d.UsuarioId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("usuario_log_usuario_id_fkey");
         });

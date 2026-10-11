@@ -14,7 +14,7 @@ public partial class Usuario
     public string Senha { get; set; } = null!;
 
     public bool Status { get; set; }
-
+    public tipo_usuario_enum TipoUsuario { get; set; }
     public virtual ContaUsuario? ContaUsuario { get; set; }
 
     public virtual ICollection<Movimentacao> Movimentacao { get; set; } = new List<Movimentacao>();
