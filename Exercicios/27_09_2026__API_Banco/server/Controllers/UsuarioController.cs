@@ -60,12 +60,12 @@ namespace BancoAPI.Controllers
             try
             {
                 tipo_usuario_enum tipo = tipoUsuario == "PESSOA_FISICA" ? tipo_usuario_enum.PESSOA_FISICA : tipo_usuario_enum.PESSOA_JURIDICA;
-                usuario usuarioAdicionado = new usuario
+                Usuario usuarioAdicionado = new Usuario
                 {
-                    nome = nome,
-                    email = email,
-                    senha = senha,
-                    tipo_usuario = tipo
+                    Nome = nome,
+                    Email = email,
+                    Senha = senha,
+                    TipoUsuario = tipo
                 };
                 _service.Adicionar(usuarioAdicionado);
 
@@ -97,10 +97,10 @@ namespace BancoAPI.Controllers
                 if (usuarioEditado == null)
                     return NotFound("Erro, usuario não encontrado!");
 
-                usuario usuario = new usuario
+                Usuario usuario = new Usuario
                 {
-                    nome = nome,
-                    email = email,
+                    Nome = nome,
+                    Email = email,
                 };
 
                 _service.Atualizar(usuario, senha);
