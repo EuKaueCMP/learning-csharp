@@ -45,8 +45,8 @@ CREATE TYPE banco.status_movimentacao_enum AS ENUM('EM ANDAMENTO', 'CONCLUIDA', 
 CREATE TABLE banco.transferencia
 (
 	transferencia_id SERIAL PRIMARY KEY,
-	usuario_remetente_id INTEGER NOT NULL REFERENCES banco.usuario(usuario_id),
-	usuario_destinatario_id INTEGER NOT NULL REFERENCES banco.usuario(usuario_id),
+	conta_remetente_id BIGINT NOT NULL REFERENCES banco.conta_usuario(numero_conta),
+	conta_destinatario_id BIGINT NOT NULL REFERENCES banco.conta_usuario(numero_conta),
 	valor NUMERIC(10, 2) NOT NULL,
 	data_criacao TIMESTAMP DEFAULT CLOCK_TIMESTAMP(),
 	data_transferencia TIMESTAMP NOT NULL,
@@ -91,26 +91,17 @@ CREATE TABLE banco.saque
 	localizacao_saque JSONB
 );
 
-ALTER TABLE banco.saque
-DROP column usuario_id;
-
-ALTER TABLE banco.saque 
-ADD COLUMN numero_conta BIGINT NOT NULL REFERENCES banco.conta_usuario(numero_conta);
-
-ALTER TABLE banco.saque 
-ADD COLUMN agencia_conta VARCHAR(4) NOT NULL;
-
 CREATE TYPE banco.tipo_pagamento_enum AS ENUM('BOLETO', 'DEBITO AUTOMATICO', 'FATURA', 'IMPOSTOS');
 
 CREATE TABLE banco.pagamento
 (
 	pagamento_id SERIAL PRIMARY KEY,
-	usuario_id INTEGER NOT NULL REFERENCES banco.usuario(usuario_id),
+	numero_conta BIGINT NOT NULL REFERENCES banco.conta_usuario(numero_conta),
+	agencia_conta VARCHAR(4) NOT NULL,
 	status_movimentacao banco.status_movimentacao_enum NOT NULL,
 	tipo_pagamento banco.tipo_pagamento_enum NOT NULL,
 	valor NUMERIC(10, 2) NOT NULL
 );
-
 
 CREATE TYPE banco.tipo_movimentacao_enum AS ENUM('ENTRADA', 'SAIDA');
 
@@ -124,7 +115,6 @@ CREATE TABLE banco.movimentacao
 	saldo_anterior NUMERIC(10, 2) NOT NULL,
 	saldo_atual NUMERIC(10, 2) NOT NULL,
 	data_movimentacao TIMESTAMP DEFAULT CLOCK_TIMESTAMP()
-
 );
 
 -- Implementação futura: INVESTIMENTOS
