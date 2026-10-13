@@ -17,7 +17,7 @@ namespace BancoAPI.Repositories
         public async Task<decimal> ObterSaldo(int numeroConta, string numeroAgencia)
         {
             ContaUsuario contaBuscada = await _ctx.ContaUsuario.FirstAsync(c => c.NumeroConta == numeroConta && c.NumeroAgencia == numeroAgencia);
-            return (Decimal)contaBuscada.Saldo;
+            return contaBuscada.Saldo ?? 0;
         }
     }
 }

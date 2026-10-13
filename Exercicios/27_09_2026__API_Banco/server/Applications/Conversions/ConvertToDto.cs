@@ -5,18 +5,22 @@ using BancoAPI.DTOs.TransferenciaDTO;
 using BancoAPI.DTOs.UsuarioDTO;
 using BancoAPI.DTOs.UsuarioLogDTO;
 using BancoAPI.DTOs.DepositoDTO;
+using BancoAPI.DTOs.ContaUsuarioDTO;
 
 namespace BancoAPI.Applications.Conversions
 {
     public static class ConvertToDto
     {
-        // public static ListarDepositoDTO DepositoToDto(deposito deposito)
-        // {
-        //     return new ListarDepositoDTO
-        //     {
-                
-        //     };
-        // }
+        public static ListarContaUsuarioDto ContaUsuarioToDto(ContaUsuario contaUsuario)
+        {
+            return new ListarContaUsuarioDto
+            {
+              NumeroAgencia = contaUsuario.NumeroAgencia,
+              NumeroConta = contaUsuario.NumeroConta,
+              UsuarioId = contaUsuario.UsuarioId,
+              nomeUsuario = contaUsuario.Usuario.Nome  
+            };
+        }
 
         public static ListarLogTransferenciaDTO LogTransferenciaToDto(LogTransferencia logTransf)
         {
