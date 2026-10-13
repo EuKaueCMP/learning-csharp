@@ -11,7 +11,7 @@ public partial class Movimentacao
 
     public string? Informacoes { get; set; }
 
-  public tipo_movimentacao_enum tipo_movimentacao { get; set; }
+    public tipo_movimentacao_enum tipo_movimentacao { get; set; }
 
     public decimal SaldoMovimentado { get; set; }
 

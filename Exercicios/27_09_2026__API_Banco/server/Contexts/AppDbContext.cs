@@ -160,15 +160,18 @@ public partial class AppDbContext : DbContext
             entity.ToTable("pagamento", "banco");
 
             entity.Property(e => e.PagamentoId).HasColumnName("pagamento_id");
-            entity.Property(e => e.UsuarioId).HasColumnName("usuario_id");
+            entity.Property(e => e.AgenciaConta)
+                .HasMaxLength(4)
+                .HasColumnName("agencia_conta");
+            entity.Property(e => e.NumeroConta).HasColumnName("numero_conta");
             entity.Property(e => e.Valor)
                 .HasPrecision(10, 2)
                 .HasColumnName("valor");
 
-            entity.HasOne(d => d.Usuario).WithMany(p => p.Pagamento)
-                .HasForeignKey(d => d.UsuarioId)
+            entity.HasOne(d => d.NumeroContaNavigation).WithMany(p => p.Pagamento)
+                .HasForeignKey(d => d.NumeroConta)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("pagamento_usuario_id_fkey");
+                .HasConstraintName("pagamento_numero_conta_fkey");
         });
 
         modelBuilder.Entity<Saque>(entity =>
@@ -206,6 +209,8 @@ public partial class AppDbContext : DbContext
             entity.ToTable("transferencia", "banco");
 
             entity.Property(e => e.TransferenciaId).HasColumnName("transferencia_id");
+            entity.Property(e => e.ContaDestinatarioId).HasColumnName("conta_destinatario_id");
+            entity.Property(e => e.ContaRemetenteId).HasColumnName("conta_remetente_id");
             entity.Property(e => e.DataCriacao)
                 .HasDefaultValueSql("clock_timestamp()")
                 .HasColumnType("timestamp without time zone")
@@ -213,21 +218,19 @@ public partial class AppDbContext : DbContext
             entity.Property(e => e.DataTransferencia)
                 .HasColumnType("timestamp without time zone")
                 .HasColumnName("data_transferencia");
-            entity.Property(e => e.UsuarioDestinatarioId).HasColumnName("usuario_destinatario_id");
-            entity.Property(e => e.UsuarioRemetenteId).HasColumnName("usuario_remetente_id");
             entity.Property(e => e.Valor)
                 .HasPrecision(10, 2)
                 .HasColumnName("valor");
 
-            entity.HasOne(d => d.UsuarioDestinatario).WithMany(p => p.TransferenciaUsuarioDestinatario)
-                .HasForeignKey(d => d.UsuarioDestinatarioId)
+            entity.HasOne(d => d.ContaDestinatario).WithMany(p => p.TransferenciaContaDestinatario)
+                .HasForeignKey(d => d.ContaDestinatarioId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("transferencia_usuario_destinatario_id_fkey");
+                .HasConstraintName("transferencia_conta_destinatario_id_fkey");
 
-            entity.HasOne(d => d.UsuarioRemetente).WithMany(p => p.TransferenciaUsuarioRemetente)
-                .HasForeignKey(d => d.UsuarioRemetenteId)
+            entity.HasOne(d => d.ContaRemetente).WithMany(p => p.TransferenciaContaRemetente)
+                .HasForeignKey(d => d.ContaRemetenteId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("transferencia_usuario_remetente_id_fkey");
+                .HasConstraintName("transferencia_conta_remetente_id_fkey");
         });
 
         modelBuilder.Entity<Usuario>(entity =>

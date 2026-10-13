@@ -13,7 +13,6 @@ public partial class LogTransferencia
 
     public status_movimentacao_enum status_movimentacao_anterior { get; set; }
 
-
     public DateTime? DataAlteracao { get; set; }
 
     public virtual Transferencia? Transferencia { get; set; }

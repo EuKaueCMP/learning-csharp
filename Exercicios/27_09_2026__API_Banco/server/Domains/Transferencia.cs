@@ -7,9 +7,9 @@ public partial class Transferencia
 {
     public int TransferenciaId { get; set; }
 
-    public int UsuarioRemetenteId { get; set; }
+    public long ContaRemetenteId { get; set; }
 
-    public int UsuarioDestinatarioId { get; set; }
+    public long ContaDestinatarioId { get; set; }
 
     public decimal Valor { get; set; }
 
@@ -21,9 +21,9 @@ public partial class Transferencia
 
     public status_movimentacao_enum status_movimentacao { get; set; }
 
+    public virtual ContaUsuario ContaDestinatario { get; set; } = null!;
+
+    public virtual ContaUsuario ContaRemetente { get; set; } = null!;
+
     public virtual ICollection<LogTransferencia> LogTransferencia { get; set; } = new List<LogTransferencia>();
-
-    public virtual Usuario UsuarioDestinatario { get; set; } = null!;
-
-    public virtual Usuario UsuarioRemetente { get; set; } = null!;
 }

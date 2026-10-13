@@ -14,16 +14,12 @@ public partial class Usuario
     public string Senha { get; set; } = null!;
 
     public bool Status { get; set; }
+
     public tipo_usuario_enum TipoUsuario { get; set; }
+
     public virtual ContaUsuario? ContaUsuario { get; set; }
 
     public virtual ICollection<Movimentacao> Movimentacao { get; set; } = new List<Movimentacao>();
-
-    public virtual ICollection<Pagamento> Pagamento { get; set; } = new List<Pagamento>();
-
-    public virtual ICollection<Transferencia> TransferenciaUsuarioDestinatario { get; set; } = new List<Transferencia>();
-
-    public virtual ICollection<Transferencia> TransferenciaUsuarioRemetente { get; set; } = new List<Transferencia>();
 
     public virtual ICollection<UsuarioLog> UsuarioLog { get; set; } = new List<UsuarioLog>();
 }

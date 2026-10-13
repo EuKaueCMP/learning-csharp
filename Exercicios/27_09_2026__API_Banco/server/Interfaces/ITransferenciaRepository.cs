@@ -9,10 +9,10 @@ namespace BancoAPI.Interfaces
         //? que menciona o usuarioId estar
         //? Exemplo:
         //? Listagem de 
-        public Task<List<Transferencia>> ObterTransferenciaPorUsuarioId(int usuarioId);
-        public Task<List<Transferencia>> ObterTransferenciaPorUsurioIdData(int usuarioid, DateOnly data);
-        public Task<List<Transferencia>> ObterTransferenciaPorUsuarioIdTipo(int usuarioId, string tipo);
-        public Task<List<Transferencia>> ObterTransferenciaPorUsuarioIdStatus(int usuarioId, string status);
+        public Task<List<Transferencia>> ObterTransfPorNumConta(int numeroConta);
+        public Task<List<Transferencia>> ObterTransfPorNumContaData(int numeroConta, DateOnly data);
+        public Task<List<Transferencia>> ObterTransfPorNumContaTipo(int numeroConta, string tipo);
+        public Task<List<Transferencia>> ObterTransfPorNumContaStatus(int numeroConta, string status);
         public Task<Transferencia> ObterTransferenciaPorId(int id);
         public Task Transferir(string tipoTransferencia, int usuarioRemetenteId, int usuarioDestinatarioId, decimal valor, DateOnly dataTransferencia, string status);
     }

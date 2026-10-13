@@ -48,10 +48,10 @@ namespace BancoAPI.Applications.Conversions
             return new ListarTransferenciaDTO
             {
                 transferencia_id = transferencia.TransferenciaId,
-                nome_remetente = transferencia.UsuarioRemetente.Nome,
-                usuario_remetente_id = transferencia.UsuarioRemetenteId,
-                nome_destinatario = transferencia.UsuarioDestinatario.Nome,
-                usuario_destinatario_id = transferencia.UsuarioDestinatarioId,
+                nome_remetente = transferencia.ContaRemetente.Usuario.Nome,
+                contaRemetente = transferencia.ContaRemetente.UsuarioId,
+                nome_destinatario = transferencia.ContaRemetente.Usuario.Nome,
+                contaDestinatario = transferencia.ContaDestinatarioId,
                 data_criacao = transferencia.DataCriacao,
                 data_transferencia = transferencia.DataTransferencia,
                 tipo_transferencia = transferencia.tipo_transferencia.ToString(),

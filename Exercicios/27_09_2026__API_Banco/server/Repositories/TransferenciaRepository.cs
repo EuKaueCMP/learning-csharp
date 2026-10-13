@@ -15,40 +15,40 @@ namespace BancoAPI.Repositories
                              => _ctx.Transferencia
                                 .ToListAsync();
 
-        public Task<List<Transferencia>> ObterTransferenciaPorUsuarioId(int usuarioId)
+        public Task<List<Transferencia>> ObterTransfPorNumConta(int numeroConta)
                              => _ctx.Transferencia
                                 .OrderByDescending(t => t.DataTransferencia)
-                                .Include(t => t.UsuarioRemetente)
-                                .Include(t => t.UsuarioDestinatario)
-                                .Where(t => t.UsuarioRemetenteId == usuarioId || t.UsuarioDestinatarioId == usuarioId)
+                                .Include(t => t.ContaRemetente)
+                                .Include(t => t.ContaDestinatario)
+                                .Where(t => t.ContaRemetenteId == numeroConta || t.ContaDestinatarioId == numeroConta)
                                 .ToListAsync();
 
-        public Task<List<Transferencia>> ObterTransferenciaPorUsurioIdData(int usuarioId, DateOnly data)
+        public Task<List<Transferencia>> ObterTransfPorNumContaData(int numeroConta, DateOnly data)
                              => _ctx.Transferencia
                                 .OrderByDescending(t => t.DataTransferencia)
-                                .Include(t => t.UsuarioRemetente)
-                                .Include(t => t.UsuarioDestinatario)
-                                .Where(t => DateTimeToOnly.ToOnly(t.DataTransferencia) == data)
+                                .Include(t => t.ContaRemetente)
+                                .Include(t => t.ContaDestinatario)
+                                .Where(t => DateTimeToOnly.ToOnly(t.DataTransferencia) == data && t.ContaRemetenteId == numeroConta || t.ContaDestinatarioId == numeroConta)
                                 .ToListAsync();
 
-        public Task<List<Transferencia>> ObterTransferenciaPorUsuarioIdTipo(int usuarioId, string tipo)
+        public Task<List<Transferencia>> ObterTransfPorNumContaTipo(int numeroConta, string tipo)
                              => _ctx.Transferencia
                                 .OrderByDescending(t => t.DataTransferencia)
-                                .Include(t => t.UsuarioDestinatario)
-                                .Where(t => t.UsuarioRemetenteId == usuarioId && t.tipo_transferencia.ToString() == tipo.ToUpper())
+                                .Include(t => t.ContaDestinatario)
+                                .Where(t => t.ContaRemetenteId == numeroConta  || t.ContaDestinatarioId == numeroConta && t.tipo_transferencia.ToString() == tipo.ToUpper())
                                 .ToListAsync();
 
-        public Task<List<Transferencia>> ObterTransferenciaPorUsuarioIdStatus(int usuarioId, string status)
+        public Task<List<Transferencia>> ObterTransfPorNumContaStatus(int numeroConta, string status)
                             => _ctx.Transferencia
                                 .OrderByDescending(t => t.DataTransferencia)
-                                .Include(t => t.UsuarioRemetente)
-                                .Include(t => t.UsuarioDestinatario)
-                                .Where(t => t.UsuarioRemetenteId == usuarioId && t.status_movimentacao.ToString() == status.ToUpper())
+                                .Include(t => t.ContaRemetente)
+                                .Include(t => t.ContaDestinatario)
+                                .Where(t => t.ContaRemetenteId == numeroConta || t.ContaDestinatarioId == numeroConta && t.status_movimentacao.ToString() == status.ToUpper())
                                 .ToListAsync();
         public async Task<Transferencia> ObterTransferenciaPorId(int id)
                             => await _ctx.Transferencia
-                                .Include(t => t.UsuarioRemetente)
-                                .Include(t => t.UsuarioDestinatario)
+                                .Include(t => t.ContaRemetente)
+                                .Include(t => t.ContaDestinatario)
                                 .Where(t => t.TransferenciaId == id).FirstAsync();
 
         public async Task Transferir(string tipoTransferencia, int usuarioRemetenteId, int usuarioDestinatarioId, decimal valor, DateOnly dataTransferencia, string status)
@@ -56,8 +56,8 @@ namespace BancoAPI.Repositories
             Transferencia transf = new Transferencia
             {
                 DataTransferencia = Convert.ToDateTime(dataTransferencia),
-                UsuarioRemetenteId = usuarioRemetenteId,
-                UsuarioDestinatarioId = usuarioDestinatarioId,
+                ContaRemetenteId = usuarioRemetenteId,
+                ContaDestinatarioId = usuarioDestinatarioId,
                 Valor = valor,
                 tipo_transferencia = Enum.Parse<tipo_transferencia_enum>(tipoTransferencia),
                 status_movimentacao = Enum.Parse<status_movimentacao_enum>(status)

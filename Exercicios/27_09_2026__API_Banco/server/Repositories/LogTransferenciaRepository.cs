@@ -16,12 +16,12 @@ namespace BancoAPI.Repositories
                                 .Include(u => u)
                                 .ToListAsync();
 
-        public async Task<List<LogTransferencia>> ObterPorUsuarioId(int usuarioId)
+        public async Task<List<LogTransferencia>> ObterPorUsuarioId(int numeroConta)
                             => await _ctx.LogTransferencia
                                 .OrderByDescending(l => l.DataAlteracao)
                                 .Include(u => u.Transferencia)
                                 .Include(u => u.status_movimentacao_anterior)
-                                .Where(l => l.Transferencia.UsuarioRemetenteId == usuarioId || l.Transferencia.UsuarioDestinatarioId == usuarioId)
+                                .Where(l => l.Transferencia.ContaRemetenteId == numeroConta || l.Transferencia.ContaDestinatarioId == numeroConta)
                                 .ToListAsync();
 
         public async Task<List<LogTransferencia>> ObterPorStatus(string nomeStatus)
@@ -32,12 +32,12 @@ namespace BancoAPI.Repositories
                                 .Where(l => l.status_movimentacao_anterior.ToString() == nomeStatus.ToUpper())
                                 .ToListAsync();
 
-        public async Task<List<LogTransferencia>> ObterPorUsuarioIdStatus(int usuarioId, string status)
+        public async Task<List<LogTransferencia>> ObterPorUsuarioIdStatus(int numeroConta, string status)
                              => await _ctx.LogTransferencia
                                 .OrderByDescending(l => l.DataAlteracao)
                                 .Include(u => u.Transferencia)
                                 .Include(u => u.status_movimentacao_anterior)
-                                .Where(l => l.Transferencia.UsuarioRemetenteId == usuarioId && l.status_movimentacao_anterior.ToString() == status.ToUpper())
+                                .Where(l => l.Transferencia.ContaRemetenteId == numeroConta && l.status_movimentacao_anterior.ToString() == status.ToUpper())
                                 .ToListAsync();
 
         public async Task<LogTransferencia> ObterPorId(int logId)

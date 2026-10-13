@@ -15,7 +15,13 @@ public partial class ContaUsuario
 
     public virtual ICollection<Deposito> Deposito { get; set; } = new List<Deposito>();
 
+    public virtual ICollection<Pagamento> Pagamento { get; set; } = new List<Pagamento>();
+
     public virtual ICollection<Saque> Saque { get; set; } = new List<Saque>();
+
+    public virtual ICollection<Transferencia> TransferenciaContaDestinatario { get; set; } = new List<Transferencia>();
+
+    public virtual ICollection<Transferencia> TransferenciaContaRemetente { get; set; } = new List<Transferencia>();
 
     public virtual Usuario Usuario { get; set; } = null!;
 }

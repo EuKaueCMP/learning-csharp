@@ -28,12 +28,12 @@ namespace BancoAPI.Controllers
             }
         }
 
-        [HttpGet("usuarioId/{usuarioId}")]
-        public async Task<ActionResult<ListarTransferenciaDTO>> ObterTransferenciaPorUsuarioId(int usuarioId)
+        [HttpGet("numeroConta/{numeroConta}")]
+        public async Task<ActionResult<ListarTransferenciaDTO>> ObterTransferenciaPorUsuarioId(int numeroConta)
         {
             try
             {
-                return Ok(await _service.ObterPorUsuarioId(usuarioId));
+                return Ok(await _service.ObterPorNumeroConta(numeroConta));
             }
             catch (Exception ex)
             {
@@ -54,12 +54,12 @@ namespace BancoAPI.Controllers
             }
         }
 
-        [HttpGet("usuarioId/{usuarioId}/tipoTransferencia/{tipoTransferencia}")]
-        public async Task<ActionResult<ListarTransferenciaDTO>> ObterTransferenciaPorUsuarioIdTipoTransferencia(int usuarioId, string tipoTransferencia)
+        [HttpGet("numeroConta/{numeroConta}/tipoTransferencia/{tipoTransferencia}")]
+        public async Task<ActionResult<ListarTransferenciaDTO>> ObterTransferenciaPorUsuarioIdTipoTransferencia(int numeroConta, string tipoTransferencia)
         {
             try
             {
-                return Ok(_service.ObterTransferenciaPorUsuarioIdTipo(usuarioId, tipoTransferencia));
+                return Ok(_service.ObterTransfPorNumContaTipo(numeroConta, tipoTransferencia));
             }
             catch (Exception ex)
             {
