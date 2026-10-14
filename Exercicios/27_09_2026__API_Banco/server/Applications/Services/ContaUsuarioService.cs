@@ -19,10 +19,10 @@ namespace BancoAPI.Services
             return contas.Select(c => ConvertToDto.ContaUsuarioToDto(c)).ToList();
         }
 
-        public async Task<ListarContaUsuarioDto> ObterContaPorNumeroContaAgencia(int numeroConta, string numeroAgencia) => ConvertToDto.ContaUsuarioToDto(await _repository.ObterContaPorNumeroContaAgencia(numeroConta, numeroAgencia)) 
+        public async Task<ListarContaUsuarioDto> ObterContaPorNumeroContaAgencia(long numeroConta, string numeroAgencia) => ConvertToDto.ContaUsuarioToDto(await _repository.ObterContaPorNumeroContaAgencia(numeroConta, numeroAgencia)) 
                                             ?? throw new DomainException("Erro, nenhuma conta localizada!");
 
-        public async Task<decimal> ObterSaldo(int numeroConta, string agenciaConta)
+        public async Task<decimal> ObterSaldo(long numeroConta, string agenciaConta)
         {
             if(numeroConta <= 0 || string.IsNullOrWhiteSpace(agenciaConta))
                 throw new DomainException("Erro, nenhuma conta localizada!");

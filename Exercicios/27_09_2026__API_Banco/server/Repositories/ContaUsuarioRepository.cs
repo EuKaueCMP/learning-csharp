@@ -12,9 +12,9 @@ namespace BancoAPI.Repositories
 
         public async Task<List<ContaUsuario>> Listar() => await _ctx.ContaUsuario.ToListAsync();
 
-        public async Task<ContaUsuario> ObterContaPorNumeroContaAgencia(int numeroConta, string numeroAgencia) => await _ctx.ContaUsuario.FirstAsync(c => c.NumeroConta == numeroConta && c.NumeroAgencia == numeroAgencia);
+        public async Task<ContaUsuario> ObterContaPorNumeroContaAgencia(long numeroConta, string numeroAgencia) => await _ctx.ContaUsuario.FirstAsync(c => c.NumeroConta == numeroConta && c.NumeroAgencia == numeroAgencia);
 
-        public async Task<decimal> ObterSaldo(int numeroConta, string numeroAgencia)
+        public async Task<decimal> ObterSaldo(long numeroConta, string numeroAgencia)
         {
             ContaUsuario contaBuscada = await _ctx.ContaUsuario.FirstAsync(c => c.NumeroConta == numeroConta && c.NumeroAgencia == numeroAgencia);
             return contaBuscada.Saldo ?? 0;

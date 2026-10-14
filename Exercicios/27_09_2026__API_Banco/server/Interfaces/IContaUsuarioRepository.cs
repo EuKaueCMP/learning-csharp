@@ -6,8 +6,8 @@ namespace BancoAPI.Interfaces
     {
         public Task<List<ContaUsuario>> Listar();
 
-        public Task<ContaUsuario> ObterContaPorNumeroContaAgencia(int numeroConta, string agenciaConta);
+        public Task<ContaUsuario> ObterContaPorNumeroContaAgencia(long numeroConta, string agenciaConta);
 
-        public Task<decimal> ObterSaldo(int numeroConta, string agenciaConta);
+        public Task<decimal> ObterSaldo(long numeroConta, string agenciaConta);
     }
 }
