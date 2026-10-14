@@ -19,7 +19,7 @@ namespace BancoAPI.Services
             return pagamentos.Select(p => ConvertToDto.PagamentoToDto(p)).ToList();
         }
 
-        public async Task<List<ListarPagamentoDto>> ListarPagamentoPorAgenciaConta(int numeroConta, string numeroAgencia)
+        public async Task<List<ListarPagamentoDto>> ListarPagamentoPorAgenciaConta(long numeroConta, string numeroAgencia)
         {
             List<Pagamento> pagamentos = await _repository.ListarPagamentosPorAgenciaConta(numeroConta, numeroAgencia)
                                             ?? throw new DomainException("Erro, nenhum pagamento encontrado.");
@@ -31,19 +31,21 @@ namespace BancoAPI.Services
                                      => ConvertToDto.PagamentoToDto(await _repository.ObterPagamentoPorId(pagamentoId) 
                                             ?? throw new DomainException("Erro, nenhum pagamento encontrado."));
 
-        public async Task Sacar(long numeroConta, string agenciaConta, decimal valorSaque)
+        public async Task EfetuarPagamento(EfetuarPagamentoDto novoPagamento)
         {
-            if(numeroConta <= 0 || string.IsNullOrWhiteSpace(agenciaConta) || valorSaque <= 0)
+            if(novoPagamento.NumeroConta <= 0 || string.IsNullOrWhiteSpace(novoPagamento.AgenciaConta) || novoPagamento.Valor <= 0)
                 throw new DomainException("Erro, Preencha todos os campos!");
 
             Pagamento pagamento = new Pagamento
             {
-                AgenciaConta = agenciaConta,
-                NumeroConta = numeroConta,
-                Valor = valorSaque
+                AgenciaConta = novoPagamento.AgenciaConta,
+                NumeroConta = novoPagamento.NumeroConta,
+                Valor = novoPagamento.Valor,
+                status_movimentacao = novoPagamento.status_movimentacao,
+                tipo_pagamento = novoPagamento.tipo_pagamento
             };
 
-            await _repository.Sacar(pagamento);
+            await _repository.EfetuarPagamento(pagamento);
         }
     }
 }

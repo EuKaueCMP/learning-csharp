@@ -12,11 +12,11 @@ namespace BancoAPI.Repositories
 
         public async Task<List<Pagamento>> Listar() => await _ctx.Pagamento.ToListAsync();
 
-        public async Task<List<Pagamento>> ListarPagamentosPorAgenciaConta(int numeroConta, string agencia) => await _ctx.Pagamento.Where(s => s.NumeroConta == numeroConta && s.AgenciaConta == agencia).ToListAsync();
+        public async Task<List<Pagamento>> ListarPagamentosPorAgenciaConta(long numeroConta, string agencia) => await _ctx.Pagamento.Where(s => s.NumeroConta == numeroConta && s.AgenciaConta == agencia).ToListAsync();
 
         public async Task<Pagamento> ObterPagamentoPorId(int pagamentoId) => await _ctx.Pagamento.FirstAsync(s => s.PagamentoId == pagamentoId);
 
-        public async Task Sacar(Pagamento pagamento)
+        public async Task EfetuarPagamento(Pagamento pagamento)
         {
             await _ctx.Pagamento.AddAsync(pagamento);
             await _ctx.SaveChangesAsync();

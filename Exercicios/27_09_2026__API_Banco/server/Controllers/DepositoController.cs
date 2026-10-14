@@ -63,10 +63,13 @@ namespace BancoAPI.Controllers
                     NumeroConta = numeroConta,
                     NumeroAgencia = agencia,
                     Valor = valor,
-                    tipo_deposito = tipo
+                    tipo_deposito = tipo,
+                    status_movimentacao = status_movimentacao_enum.EM_ANDAMENTO
                 };
 
                 await _service.Depositar(novoDeposito);
+                //TODOOOOO Acrescentar um metodo que atualiza o status para concluido
+                // await _service.AtualizarStatus(novoDeposito)
                 return StatusCode(201, "Deposito concluido!");
             }
             catch (Exception ex)
