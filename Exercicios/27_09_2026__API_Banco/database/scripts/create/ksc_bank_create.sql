@@ -100,14 +100,11 @@ CREATE TABLE banco.pagamento
 	agencia_conta VARCHAR(4) NOT NULL,
 	status_movimentacao banco.status_movimentacao_enum NOT NULL,
 	tipo_pagamento banco.tipo_pagamento_enum NOT NULL,
+	data_pagamento TIMESTAMP DEFAULT CLOCK_TIMESTAMP(),
 	valor NUMERIC(10, 2) NOT NULL
 );
 
-ALTER TABLE banco.pagamento
-ADD COLUMN data_pagamento TIMESTAMP DEFAULT CLOCK_TIMESTAMP(),
-
 CREATE TYPE banco.tipo_movimentacao_enum AS ENUM('ENTRADA', 'SAIDA');
-
 CREATE TABLE banco.movimentacao
 (
 	movimentacao_id SERIAL PRIMARY KEY,
