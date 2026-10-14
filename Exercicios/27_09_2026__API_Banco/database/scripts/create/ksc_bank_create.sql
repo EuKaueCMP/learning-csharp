@@ -87,7 +87,7 @@ CREATE TABLE banco.saque
 	valor NUMERIC(10, 2) NOT NULL,
 	tipo_saque banco.tipo_saque_enum NOT NULL,
 	status_movimentacao banco.status_movimentacao_enum NOT NULL,
-	data_saque TIMESTAMP NOT NULL DEFAULT CLOCK_TIMESTAMP(),
+	data_saque TIMESTAMP DEFAULT CLOCK_TIMESTAMP(),
 	localizacao_saque JSONB
 );
 
@@ -102,6 +102,9 @@ CREATE TABLE banco.pagamento
 	tipo_pagamento banco.tipo_pagamento_enum NOT NULL,
 	valor NUMERIC(10, 2) NOT NULL
 );
+
+ALTER TABLE banco.pagamento
+ADD COLUMN data_pagamento TIMESTAMP DEFAULT CLOCK_TIMESTAMP(),
 
 CREATE TYPE banco.tipo_movimentacao_enum AS ENUM('ENTRADA', 'SAIDA');
 
