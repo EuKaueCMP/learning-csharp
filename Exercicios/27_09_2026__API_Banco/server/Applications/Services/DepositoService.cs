@@ -32,14 +32,14 @@ namespace BancoAPI.Services
         public async Task<ListarDepositoDTO> ObterDepositoPorId(int depositoId)
                 => ConvertToDto.DepositoToDto(await _repository.ObterDepositoPorId(depositoId) ?? throw new DomainException("Erro, nenhum deposito localizado!"));
 
-        public async Task Depositar(Deposito deposito)
+        public async Task Depositar(DepositarDto deposito)
         {
             if (deposito.NumeroConta <= 0 || string.IsNullOrWhiteSpace(deposito.NumeroAgencia) || deposito.Valor <= 0 ||
                  string.IsNullOrWhiteSpace(deposito.status_movimentacao.ToString()) ||
                  string.IsNullOrWhiteSpace(deposito.tipo_deposito.ToString()))
                     throw new DomainException("Erro, Preencha todos os campos sao obrigatórios!");
 
-            await _repository.Depositar(deposito.NumeroConta, deposito.NumeroAgencia, deposito.Valor, deposito.tipo_deposito, deposito.status_movimentacao, deposito.DataDeposito);
+            await _repository.Depositar(deposito.NumeroConta, deposito.NumeroAgencia, deposito.Valor, deposito.tipo_deposito, deposito.status_movimentacao);
             
         }
     }

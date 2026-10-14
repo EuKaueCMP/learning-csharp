@@ -20,7 +20,7 @@ namespace BancoAPI.Controllers
             }
             catch (Exception ex)
             {
-                
+
                 return NotFound(ex.Message);
             }
         }
@@ -34,7 +34,7 @@ namespace BancoAPI.Controllers
             }
             catch (Exception ex)
             {
-                
+
                 return NotFound(ex.Message);
             }
         }
@@ -48,7 +48,6 @@ namespace BancoAPI.Controllers
             }
             catch (Exception ex)
             {
-                
                 return NotFound(ex.Message);
             }
         }
