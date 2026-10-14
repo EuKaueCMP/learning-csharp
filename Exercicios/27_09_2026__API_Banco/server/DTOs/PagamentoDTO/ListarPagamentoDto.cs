@@ -16,6 +16,8 @@ public partial class ListarPagamentoDto
 
     public string AgenciaConta { get; set; } = null!;
 
+    public DateTime? DataPagamento { get; set; }
+
     public tipo_pagamento_enum TipoPagamento { get; set; }
 
     public status_movimentacao_enum StatusPagamento { get; set; }

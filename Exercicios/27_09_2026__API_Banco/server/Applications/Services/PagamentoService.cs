@@ -21,12 +21,15 @@ namespace BancoAPI.Services
 
         public async Task<List<ListarPagamentoDto>> ListarPagamentoPorAgenciaConta(int numeroConta, string numeroAgencia)
         {
-            List<Pagamento> pagamentos = await _repository.ListarPagamentosPorAgenciaConta(numeroConta, numeroAgencia) ?? throw new DomainException("Erro, nenhum pagamento encontrado.");
+            List<Pagamento> pagamentos = await _repository.ListarPagamentosPorAgenciaConta(numeroConta, numeroAgencia)
+                                            ?? throw new DomainException("Erro, nenhum pagamento encontrado.");
 
             return pagamentos.Select(p => ConvertToDto.PagamentoToDto(p)).ToList();
         }
 
-        public async Task<ListarPagamentoDto> ObterPagamentoPorId(int pagamentoId) => ConvertToDto.PagamentoToDto(await _repository.ObterPagamentoPorId(pagamentoId) ?? throw new DomainException("Erro, nenhum pagamento encontrado."));
+        public async Task<ListarPagamentoDto> ObterPagamentoPorId(int pagamentoId)
+                                     => ConvertToDto.PagamentoToDto(await _repository.ObterPagamentoPorId(pagamentoId) 
+                                            ?? throw new DomainException("Erro, nenhum pagamento encontrado."));
 
         public async Task Sacar(long numeroConta, string agenciaConta, decimal valorSaque)
         {

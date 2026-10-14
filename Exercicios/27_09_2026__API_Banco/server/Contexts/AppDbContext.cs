@@ -34,10 +34,6 @@ public partial class AppDbContext : DbContext
 
     public virtual DbSet<UsuarioLog> UsuarioLog { get; set; }
 
-    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see https://go.microsoft.com/fwlink/?LinkId=723263.
-        => optionsBuilder.UseNpgsql("Server=localhost;Port=5432;User Id=postgres;Password=Admin123!;Database=ksc_bank;Trust Server Certificate=true");
-
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder
@@ -96,6 +92,14 @@ public partial class AppDbContext : DbContext
             entity.Property(e => e.Valor)
                 .HasPrecision(10, 2)
                 .HasColumnName("valor");
+            entity.Property(e => e.tipo_deposito)
+                .HasConversion<string>()
+                .HasMaxLength(50)
+                .HasColumnName("tipo_deposito");
+            entity.Property(e => e.status_movimentacao)
+                .HasConversion<string>()
+                .HasMaxLength(50)
+                .HasColumnName("status_movimentacao");
 
             entity.HasOne(d => d.NumeroContaNavigation).WithMany(p => p.Deposito)
                 .HasForeignKey(d => d.NumeroConta)
@@ -116,6 +120,10 @@ public partial class AppDbContext : DbContext
                 .HasColumnName("data_alteracao");
             entity.Property(e => e.DescricaoLog).HasColumnName("descricao_log");
             entity.Property(e => e.TransferenciaId).HasColumnName("transferencia_id");
+            entity.Property(e => e.status_movimentacao_anterior)
+                .HasConversion<string>()
+                .HasMaxLength(50)
+                .HasColumnName("status_movimentacao_anterior");
 
             entity.HasOne(d => d.Transferencia).WithMany(p => p.LogTransferencia)
                 .HasForeignKey(d => d.TransferenciaId)
@@ -146,6 +154,11 @@ public partial class AppDbContext : DbContext
                 .HasPrecision(10, 2)
                 .HasColumnName("saldo_movimentado");
             entity.Property(e => e.UsuarioId).HasColumnName("usuario_id");
+            entity.Property(e => e.tipo_movimentacao)
+                .HasConversion<string>()
+                .HasMaxLength(50)
+                .HasColumnName("tipo_movimentacao");
+
 
             entity.HasOne(d => d.Usuario).WithMany(p => p.Movimentacao)
                 .HasForeignKey(d => d.UsuarioId)
@@ -163,10 +176,22 @@ public partial class AppDbContext : DbContext
             entity.Property(e => e.AgenciaConta)
                 .HasMaxLength(4)
                 .HasColumnName("agencia_conta");
+            entity.Property(e => e.DataPagamento)
+                .HasDefaultValueSql("clock_timestamp()")
+                .HasColumnType("timestamp without time zone")
+                .HasColumnName("data_pagamento");
             entity.Property(e => e.NumeroConta).HasColumnName("numero_conta");
             entity.Property(e => e.Valor)
                 .HasPrecision(10, 2)
                 .HasColumnName("valor");
+            entity.Property(e => e.tipo_pagamento)
+                .HasConversion<string>()
+                .HasMaxLength(50)
+                .HasColumnName("tipo_pagamento");
+            entity.Property(e => e.status_movimentacao)
+                .HasConversion<string>()
+                .HasMaxLength(50)
+                .HasColumnName("status_movimentacao");
 
             entity.HasOne(d => d.NumeroContaNavigation).WithMany(p => p.Pagamento)
                 .HasForeignKey(d => d.NumeroConta)
@@ -195,6 +220,15 @@ public partial class AppDbContext : DbContext
             entity.Property(e => e.Valor)
                 .HasPrecision(10, 2)
                 .HasColumnName("valor");
+            entity.Property(e => e.TipoSaque)
+                .HasConversion<string>()
+                .HasMaxLength(50)
+                .HasColumnName("tipo_saque");
+            entity.Property(e => e.StatusMovimentacao)
+                .HasConversion<string>()
+                .HasMaxLength(50)
+                .HasColumnName("status_movimentacao");
+                
 
             entity.HasOne(d => d.NumeroContaNavigation).WithMany(p => p.Saque)
                 .HasForeignKey(d => d.NumeroConta)
@@ -221,6 +255,15 @@ public partial class AppDbContext : DbContext
             entity.Property(e => e.Valor)
                 .HasPrecision(10, 2)
                 .HasColumnName("valor");
+            entity.Property(e => e.tipo_transferencia)
+                .HasConversion<string>()
+                .HasMaxLength(50)
+                .HasColumnName("tipo_transferencia");
+            entity.Property(e => e.status_movimentacao)
+                .HasConversion<string>()
+                .HasMaxLength(50)
+                .HasColumnName("status_movimentacao");
+                
 
             entity.HasOne(d => d.ContaDestinatario).WithMany(p => p.TransferenciaContaDestinatario)
                 .HasForeignKey(d => d.ContaDestinatarioId)
@@ -252,6 +295,10 @@ public partial class AppDbContext : DbContext
             entity.Property(e => e.Status)
                 .HasDefaultValue(true)
                 .HasColumnName("status");
+            entity.Property(e => e.TipoUsuario)
+                .HasConversion<string>()
+                .HasMaxLength(50)
+                .HasColumnName("tipo_usuario");
         });
 
         modelBuilder.Entity<UsuarioLog>(entity =>

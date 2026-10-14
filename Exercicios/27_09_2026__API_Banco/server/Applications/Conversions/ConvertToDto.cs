@@ -65,7 +65,8 @@ namespace BancoAPI.Applications.Conversions
                 NumeroConta = pagamento.NumeroConta,
                 AgenciaConta = pagamento.AgenciaConta,
                 TipoPagamento = pagamento.tipo_pagamento,
-                StatusPagamento = pagamento.status_movimentacao
+                StatusPagamento = pagamento.status_movimentacao,
+                DataPagamento = pagamento.DataPagamento
             };
         }
 

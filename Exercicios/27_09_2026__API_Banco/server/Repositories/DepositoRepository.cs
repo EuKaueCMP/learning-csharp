@@ -17,7 +17,7 @@ namespace BancoAPI.Repositories
 
         public async Task<Deposito> ObterDepositoPorId(int depositoId) => await _ctx.Deposito.Include(d => d.NumeroContaNavigation.Usuario).FirstAsync(d => d.DepositoId == depositoId);
 
-        public async Task Depositar(int conta, string agencia, decimal valor, tipo_deposito_enum tipo, status_movimentacao_enum status, DateTime data)
+        public async Task Depositar(long conta, string agencia, decimal valor, tipo_deposito_enum tipo, status_movimentacao_enum status, DateTime data)
         {
             ContaUsuario contaUsu = await _ctx.ContaUsuario.FirstAsync(c => c.NumeroConta == conta);
             if (valor <= 0 || contaUsu == null)
