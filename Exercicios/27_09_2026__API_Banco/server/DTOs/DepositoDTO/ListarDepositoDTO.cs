@@ -4,17 +4,22 @@ namespace BancoAPI.DTOs.DepositoDTO;
 
 public partial class ListarDepositoDTO
 {
-    public int deposito_id { get; set; }
+    public int DepositoId { get; set; }
 
-    public int usuario_id { get; set; }
+    public string nomeUsuario { get; set; } = string.Empty!;
 
-    public decimal valor { get; set; }
+    public int UsuarioId { get; set; }
 
-    public tipo_deposito_enum tipo_deposito { get; set; } 
+    public long NumeroConta { get; set; }
 
-    public status_movimentacao_enum status_movimentacao { get; set; }
+    public string? NumeroAgencia { get; set; }
 
-    public DateTime data_deposito { get; set; }
+    public decimal Valor { get; set; }
 
-    public virtual Usuario usuario { get; set; } = null!;
+    public tipo_deposito_enum TipoDeposito { get; set; }
+
+    public status_movimentacao_enum StatusDeposito { get; set; }
+
+    public DateTime DataDeposito { get; set; }
+
 }

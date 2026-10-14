@@ -6,6 +6,8 @@ using BancoAPI.DTOs.UsuarioDTO;
 using BancoAPI.DTOs.UsuarioLogDTO;
 using BancoAPI.DTOs.DepositoDTO;
 using BancoAPI.DTOs.ContaUsuarioDTO;
+using BancoAPI.DTOs.SaqueDTO;
+using BancoAPI.DTOs.PagamentoDTO;
 
 namespace BancoAPI.Applications.Conversions
 {
@@ -15,10 +17,55 @@ namespace BancoAPI.Applications.Conversions
         {
             return new ListarContaUsuarioDto
             {
-              NumeroAgencia = contaUsuario.NumeroAgencia,
-              NumeroConta = contaUsuario.NumeroConta,
-              UsuarioId = contaUsuario.UsuarioId,
-              nomeUsuario = contaUsuario.Usuario.Nome  
+                NumeroAgencia = contaUsuario.NumeroAgencia,
+                NumeroConta = contaUsuario.NumeroConta,
+                UsuarioId = contaUsuario.UsuarioId,
+                nomeUsuario = contaUsuario.Usuario.Nome
+            };
+        }
+
+        public static ListarDepositoDTO DepositoToDto(Deposito deposito)
+        {
+            return new ListarDepositoDTO
+            {
+                DepositoId = deposito.DepositoId,
+                UsuarioId = deposito.NumeroContaNavigation.UsuarioId,
+                nomeUsuario = deposito.NumeroContaNavigation.Usuario.Nome,
+                NumeroAgencia = deposito.NumeroAgencia,
+                NumeroConta = deposito.NumeroConta,
+                TipoDeposito = deposito.tipo_deposito,
+                StatusDeposito = deposito.status_movimentacao,
+                DataDeposito = deposito.DataDeposito
+            };
+        }
+
+        public static ListarSaqueDto SaqueToDto(Saque saque)
+        {
+            return new ListarSaqueDto
+            {
+                SaqueId = saque.SaqueId,
+                UsuarioId = saque.NumeroContaNavigation.UsuarioId,
+                nomeUsuario = saque.NumeroContaNavigation.Usuario.Nome,
+                AgenciaConta = saque.AgenciaConta,
+                NumeroConta = saque.NumeroConta,
+                TipoSaque = saque.TipoSaque,
+                StatusSaque = saque.StatusMovimentacao,
+                DataSaque = saque.DataSaque
+            };
+        }
+
+        public static ListarPagamentoDto PagamentoToDto(Pagamento pagamento)
+        {
+            return new ListarPagamentoDto
+            {
+                PagamentoId = pagamento.PagamentoId,
+                UsuarioId = pagamento.NumeroContaNavigation.UsuarioId,
+                NomeUsuario = pagamento.NumeroContaNavigation.Usuario.Nome,
+                Valor = pagamento.Valor,
+                NumeroConta = pagamento.NumeroConta,
+                AgenciaConta = pagamento.AgenciaConta,
+                TipoPagamento = pagamento.tipo_pagamento,
+                StatusPagamento = pagamento.status_movimentacao
             };
         }
 
@@ -46,7 +93,7 @@ namespace BancoAPI.Applications.Conversions
                 data_movimentacao = movimentacao.DataMovimentacao
             };
         }
-        
+
         public static ListarTransferenciaDTO TransferenciaToDto(Transferencia transferencia)
         {
             return new ListarTransferenciaDTO
@@ -62,7 +109,7 @@ namespace BancoAPI.Applications.Conversions
                 status_transferencia = transferencia.status_movimentacao.ToString()
             };
         }
-        
+
         public static ListarUsuarioDTO UsuarioToDto(Usuario usuario)
         {
             return new ListarUsuarioDTO
