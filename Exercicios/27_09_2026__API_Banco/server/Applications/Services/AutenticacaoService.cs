@@ -7,12 +7,12 @@ using BancoAPI.Exceptions;
 
 namespace BancoAPI.Applications.Services
 {
-    public class AutentificacaoService
+    public class AutenticacaoService
     {
         private readonly IUsuarioRepository _repository;
         private readonly TokenJWT _jwt;
 
-        public AutentificacaoService(IUsuarioRepository repository, TokenJWT jwt)
+        public AutenticacaoService(IUsuarioRepository repository, TokenJWT jwt)
         {
             _repository = repository;
             _jwt = jwt;
