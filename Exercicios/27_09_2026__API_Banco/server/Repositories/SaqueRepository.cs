@@ -12,7 +12,7 @@ namespace BancoAPI.Repositories
 
         public async Task<List<Saque>> Listar() => await _ctx.Saque.ToListAsync();
 
-        public async Task<List<Saque>> ListarSaquePorContaAgencia(int numeroConta, string agencia) => await _ctx.Saque.OrderBy(s => s.DataSaque).Where(s => s.NumeroConta == numeroConta && s.AgenciaConta == agencia).ToListAsync();
+        public async Task<List<Saque>> ListarSaquePorContaAgencia(long numeroConta, string agencia) => await _ctx.Saque.OrderBy(s => s.DataSaque).Where(s => s.NumeroConta == numeroConta && s.AgenciaConta == agencia).ToListAsync();
 
         public async Task<Saque> ObterSaquePorId(int saqueId) => await _ctx.Saque.FirstAsync(s => s.SaqueId == saqueId);
 
